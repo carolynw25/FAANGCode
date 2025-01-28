@@ -1,0 +1,19 @@
+
+  {
+    "name": "FAANGCode",
+    "description": "Helping you ace your coding interviews + get into big tech!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["activeTab", "storage" ],
+    "host_permissions": ["https://leetcode.com/*"],
+    "action": {
+      "default_popup": "popup/index.html",
+      "default_icon": "images/faangcode_logo.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://leetcode.com/*"],
+            "js": ["scripts/content.js"]
+        }
+    ]
+  }
