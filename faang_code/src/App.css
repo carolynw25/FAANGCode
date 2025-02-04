@@ -1,5 +1,14 @@
 .App {
   text-align: center;
-  width: 500px;
-  height: 200px;
+}
+.main-content {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  margin: 20px;
+  flex-wrap: wrap; /* Allow boxes to wrap when screen shrunk */
+  margin-left: 230px;  /* Space for the navbar */
+}
+body {
+  background-color:azure;
 }

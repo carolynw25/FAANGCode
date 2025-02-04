@@ -1,0 +1,34 @@
+.navbar {
+    background-color: #4caaf2;
+    padding: 20px;
+    width: 159px;
+    height: 100vh;  /* take up the full height of the viewport */
+    position: fixed;
+    top: 0; 
+    left: 0;
+    display: flex;
+    flex-direction: column; 
+  }
+  
+.navbar ul {
+    list-style-type: none;  /* Remove bullet points */
+    padding: 0; 
+}
+
+.navbar a {
+    text-decoration: none;  /* Get rid of underline */
+    font-size: px;  
+    color: white; 
+    padding: 20px;
+    display: block;
+}
+
+.navbar a:hover {
+    background-color: #2a8dc8;
+}
+
+img {
+    width: 150px;
+    height: auto;
+  }
+  

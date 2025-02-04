@@ -1,0 +1,30 @@
+.problem-box {
+    background-color: #a8d1fb;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text within boxes */
+}
+  
+.problem-box h4, p {
+    margin: 5px 0; /* no extra spacing */
+    font-size: 18px;
+    padding: 1px;
+    border-radius: 5px;
+    white-space: nowrap; /* Prevent text wrapping to a new line */
+}
+  
+.problem-box p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+img {
+    width: 150px;  /* Set width to 150px */
+    height: auto;  /* Automatically adjust height to maintain aspect ratio */
+}
