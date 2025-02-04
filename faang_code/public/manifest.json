@@ -3,7 +3,7 @@
   "description": "Helping you ace your coding interviews + get into big tech!",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "scripting", "storage","aiLanguageModelOriginTrial"],
+  "permissions": ["activeTab", "scripting", "storage","aiLanguageModelOriginTrial","https://generativelanguage.googleapis.com/*"],
   "host_permissions": ["https://leetcode.com/*"],
   "key": "ehfiffgpbmhbmfbifgdlhmfcclhcmlee",
   "trial_tokens": [
