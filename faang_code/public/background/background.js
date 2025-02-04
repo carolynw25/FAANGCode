@@ -1,7 +1,7 @@
 // const { GoogleGenerativeAI } = require("@google/generative-ai");
-// require('dotenv').config({ path: '../.env' });
+//require('dotenv').config({ path: '../.env' });
 // console.log("starting");
-// var apiKey = process.env.GEMINI_API_KEY;
+//
 
 // const genAI = new GoogleGenerativeAI(apiKey);
 // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -29,20 +29,60 @@
 //         generateContent(problemDescription, problemCode);
 //     }
 // });
-
 chrome.runtime.onConnect.addListener((port) => {
     console.log("Connected to:", port.name);
 
-    port.onMessage.addListener((message) => {
+    port.onMessage.addListener(async (message) => {
         console.log("Message received in background script:", message);
 
         if (message.action === "sendProblemData") {
-            console.log("Received Problem Description:", message.problemDescription);
-            console.log("Received Problem Code:", message.problemCode);
+            try {
+                const prompt = await callGeminiAPI({
+                    prompt: `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: ${message.problemDescription} and this is my code: ${message.problemCode}`
+                });
 
-            port.postMessage({ status: "Data received successfully!" });
+                port.postMessage({
+                    status: "success",
+                    GeminiAnswer: prompt
+                });
+            } catch (error) {
+                console.error("API call failed:", error);
+                port.postMessage({
+                    status: "error",
+                    message: error.toString()
+                });
+            }
         }
     });
 });
 
-chrome.aiOrgin
+async function callGeminiAPI(data) {
+    // Recommendation: Store API key securely, not in code
+    const GEMINI_API_KEY = ""; // KEY HERE
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: data.prompt }],
+                }],
+            }),
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.text();
+            throw new Error(`Gemini API error: ${response.status} ${errorBody}`);
+        }
+
+        const result = await response.json();
+        return result.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error("API call error:", error);
+        throw error;
+    }
+}
