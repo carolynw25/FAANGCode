@@ -6,9 +6,10 @@ function Navbar() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light">
+                <img src="/gator.png" alt="Image of gator"/>
                 <ul className="navbar-nav d-flex flex-column">
                     <li className="nav-item">
-                        <Link to="/" className="nav-link">Dashboard</Link>
+                        <Link to="/dashboard" className="nav-link">Dashboard</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/problems" className="nav-link">Problems</Link>
@@ -24,7 +25,7 @@ function Navbar() {
                     </li>
                 </ul>
             </nav>
-            <img src="/gator.png" alt="Image of gator"/>
+
         </div>
     );
 }
