@@ -1,3 +1,5 @@
+const port = chrome.runtime.connect({ name: "content-script" });
+
 console.log("hi");
 
 let problemDescription = '';
@@ -11,7 +13,7 @@ const extractDescription = () => {
     const descriptionElement = document.querySelector('[data-track-load="description_content"]');
     if (descriptionElement) {
         problemDescription = descriptionElement.textContent.trim();
-        console.log("Problem Description:", problemDescription);
+        //console.log("Problem Description:", problemDescription);
     } else {
         console.log("Problem description not found!");
     }
@@ -25,7 +27,7 @@ const extractCode = () => {
         codeLines.forEach(line => {
             problemCode += line.textContent + '\n';
         });
-        console.log("Extracted Code:\n", problemCode);
+        //console.log("Extracted Code:\n", problemCode);
     } else {
         console.log("Code editor not found or no lines detected!");
     }
@@ -45,4 +47,19 @@ window.addEventListener('load', async () => {
     // Log the final results
     console.log("Final Problem Description:", problemDescription);
     console.log("Final Problem Code:", problemCode);
+
+
+
+    port.postMessage({
+        action: "sendProblemData",
+        problemDescription: problemDescription,
+        problemCode: problemCode
+    });
+
+    port.onMessage.addListener((response) => {
+        console.log("Response from background:", response);
+    });
+
 });
+
+

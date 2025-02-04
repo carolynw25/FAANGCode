@@ -1,19 +1,25 @@
-
 {
   "name": "FAANGCode",
   "description": "Helping you ace your coding interviews + get into big tech!",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "storage" ],
+  "permissions": ["activeTab", "scripting", "storage","aiLanguageModelOriginTrial"],
   "host_permissions": ["https://leetcode.com/*"],
+  "key": "ehfiffgpbmhbmfbifgdlhmfcclhcmlee",
+  "trial_tokens": [
+    "Ajc6A+wurIPqN6tzshN600He2RVKD+ojtzzkHgHFf0E/rwGrHa5ca7jNbBGEwUUbE9BhezAne3kjwQFpbC4ruAUAAAB4eyJvcmlnaW4iOiJjaHJvbWUtZXh0ZW5zaW9uOi8vZ3BlamNiaGJucG9rZmdvb2lhbWZtbWhkaGZoZW1jaGMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElGb3JFeHRlbnNpb24iLCJleHBpcnkiOjE3NjA0ODYzOTl9"
+  ],
   "action": {
     "default_popup": "index.html",
     "default_icon": "faangcode_logo.png"
   },
+  "background": {
+    "service_worker": "background/background.js"
+  },
   "content_scripts": [
-      {
-          "matches": ["https://leetcode.com/*"],
-          "js": ["content.js"]
-      }
+    {
+      "matches": ["https://leetcode.com/*"],
+      "js": ["content.js"]
+    }
   ]
 }
