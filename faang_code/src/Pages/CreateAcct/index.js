@@ -12,6 +12,8 @@ function CreateAcct() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    //code to fetch/post request from database here
+
     return (
         <div>
             <h1>Create an Account</h1>
@@ -72,8 +74,10 @@ function CreateAcct() {
                 />
             </div>
 
-            {/* button to create an acct->change this later to be submit form */}
-            <button onClick={() => navigate('/dashboard')}>Sign Up</button>
+            {/* button to create an acct->change this later to be a submit form */}
+            <div className="auth-buttons">
+                <button onClick={() => navigate('/dashboard')} className="signup-btn">Sign Up</button>
+            </div>
         </div>
     );
 }
