@@ -33,7 +33,7 @@ function CreateAcct() {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/create-account', {
+            const response = await fetch('http://localhost:8081/create-account', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
