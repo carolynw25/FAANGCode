@@ -36,7 +36,7 @@ app.get('/users', async (req, res) => {
 });
 */
 
-app.post('/signup', (req, res) => {
+app.post('/create-account', (req, res) => {
   const sql = "INSERT INTO user_signup ('firstName', 'lastName', 'username', 'password', 'email') VALUES (?)";
   const values = [
     req.body.firstName,
