@@ -8,12 +8,20 @@ const app = express();
 app.use(cors()); //allows frontend to call the backend
 //app.use(express.json()); //parses JSON requests
 
-const db = mariadb.createConnection() ({
-  host: "127.0.0.1",
-  user: "user1",
-  password: "password1",
-  database: "faangUsers",
+const db = mariadb.createConnection ({
+  host: 'localhost',
+  user: 'user1',
+  password: 'password1',
+  database: 'faangUsers',
 })
+.then(conn => {
+  // Use the connection object (conn) to execute queries
+  console.log('Connected to MariaDB!');
+  conn.close(); // Close the connection when done
+})
+.catch(err => {
+  console.error('Error connecting to MariaDB:', err);
+});
 // Sample route to get users
 /*
 app.get('/users', async (req, res) => {
@@ -29,11 +37,12 @@ app.get('/users', async (req, res) => {
 */
 
 app.post('/signup', (req, res) => {
-  const sql = "INSERT INTO login ('name', 'email', 'password') VALUES (?)";
+  const sql = "INSERT INTO user_signup ('name', 'username', 'password', 'email') VALUES (?)";
   const values = [
     req.body.name,
+    req.body.username,
+    req.body.password,
     req.body.email,
-    req.body.password
   ] 
   db.query(sql, [values], (err, data) => {
     if(err) {
@@ -44,7 +53,7 @@ app.post('/signup', (req, res) => {
 })
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 //app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.listen(PORT, ()=> {
   console.log("listening")
