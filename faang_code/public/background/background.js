@@ -37,7 +37,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
         if (message.action === "sendProblemData") {
             try {
-                const prompt = await callGeminiAPI({
+                const prompt = await callGPTApi({
                     prompt: `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: ${message.problemDescription} and this is my code: ${message.problemCode}`
                 });
 
@@ -82,6 +82,40 @@ async function callGeminiAPI(data) {
         const result = await response.json();
         return result.candidates[0].content.parts[0].text;
     } catch (error) {
+        console.error("API call error:", error);
+        throw error;
+    }
+}
+
+async function callGPTApi(data) {
+    const GPT_KEY = ""
+    const options = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${GPT_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "user",
+              content: data.prompt,
+            },
+          ],
+        }),
+      };
+      
+    try{
+        const response = await fetch("https://api.openai.com/v1/chat/completions", options);
+        if (!response.ok) {
+            const errorBody = await response.text();
+            throw new Error(`GPT API error: ${response.status} ${errorBody}`);
+        }
+        const chatGPTResults = await response.json();
+        return chatGPTResults.choices[0].message.content;
+    }
+    catch (error) {
         console.error("API call error:", error);
         throw error;
     }
