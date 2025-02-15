@@ -6,7 +6,7 @@ const cors = require('cors'); //cross-origin requests enabled
 
 const app = express();
 app.use(cors()); //allows frontend to call the backend
-//app.use(express.json()); //parses JSON requests
+app.use(express.json()); //parses JSON requests
 
 const db = mariadb.createConnection ({
   host: 'localhost',
@@ -54,8 +54,8 @@ app.post('/signup', (req, res) => {
 })
 
 // Start server
-const PORT = process.env.PORT || 5001;
+//const PORT = process.env.PORT || 5001;
 //app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-app.listen(PORT, ()=> {
+app.listen(8081, ()=> {
   console.log("listening")
 })
