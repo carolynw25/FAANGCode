@@ -37,9 +37,8 @@ chrome.runtime.onConnect.addListener((port) => {
 
         if (message.action === "sendProblemData") {
             try {
-                const prompt = await callGPTApi({
-                    prompt: 'Hello'
-                    //prompt: `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: ${message.problemDescription} and this is my code: ${message.problemCode}`
+                const prompt = await callGeminiAPI({
+                    prompt: `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: ${message.problemDescription} and this is my code: ${message.problemCode}`
                 });
 
                 port.postMessage({
@@ -88,7 +87,7 @@ async function callGeminiAPI(data) {
     }
 }
 
-async function callGPTApi(data) {
+async function callGPTAPI(data) {
     const GPT_KEY = ""
     const options = {
         method: "POST",
@@ -106,7 +105,7 @@ async function callGPTApi(data) {
           ],
         }),
       };
-      
+
     try{
         const response = await fetch("https://api.openai.com/v1/chat/completions", options);
         if (!response.ok) {
