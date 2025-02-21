@@ -47,7 +47,7 @@ function CreateAcct() {
 
             if (response.ok) {
                 console.log("Successful registration!");
-                navigate('/login');  // Redirect on success
+                navigate('/login');  // If successful = Redirect
             } else {
                 setError(data.message || 'Registration failed');
             }
@@ -60,11 +60,11 @@ function CreateAcct() {
 
 
     return (
-        <div>
+        <div className="form-container">
             <h1>Create an Account</h1>
             {/* input firstname, lastname, username, email, password, etc */}
-            <form action= "" onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit}>
+                <div className="form-field">
                     {/* Input user's first name */}
                     <label>First Name: </label>
                     <input
@@ -76,7 +76,7 @@ function CreateAcct() {
                     />
                 </div>
 
-                <div>
+                <div className="form-field">
                     {/* Input user's last name */}
                     <label>Last Name: </label>
                     <input
@@ -88,7 +88,7 @@ function CreateAcct() {
                     />
                 </div>
 
-                <div>
+                <div className="form-field">
                     {/* Input user's email */}
                     <label>Email: </label>
                     <input
@@ -100,7 +100,7 @@ function CreateAcct() {
                     />
                 </div>
 
-                <div>
+                <div className="form-field">
                     {/* Input user's username */}
                     <label>Username: </label>
                     <input
@@ -112,7 +112,7 @@ function CreateAcct() {
                     />
                 </div>
 
-                <div>
+                <div className="form-field">
                     {/* Input user's password-make sure to hash/encrypt in database */}
                     <label>Password: </label>
                     <input
@@ -124,14 +124,14 @@ function CreateAcct() {
                     />
                 </div>
 
+                {error && <div className="error">{error}</div>}
+
                 {/* button to create an acct->change this later to be a submit form */}
                 <div className="auth-buttons">
                     <button type="submit" className="signup-btn">Sign Up</button>
                 </div>
 
-                <p> Already have an account?</p>
-                <button onClick={() => navigate('/login')}> Login </button>
-
+                <p>Already have an account? <a href="/login">Login</a></p>
             </form>
         </div>
     );

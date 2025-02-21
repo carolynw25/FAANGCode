@@ -21,8 +21,8 @@ function Login() {
         <div>
             <h1>Sign In</h1>
             {/* input username, password  */}
-            <form action="" onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit}>
+                <div className="form-field">
                     {/* Input username */}
                     <label>Username: </label>
                     <input
@@ -33,7 +33,7 @@ function Login() {
                         required
                     />
                 </div>
-                <div>
+                <div className="form-field">
                     {/* Input password */}
                     <label>Password: </label>
                     <input
@@ -49,8 +49,8 @@ function Login() {
                     <button onClick={() => navigate('/dashboard')} className="login-btn">Login</button>
     
                 </div>
-                <p> Don't have an account?</p>
-                <button onClick={() => navigate('/create-account')}> Create Account </button>
+
+                <p>Don't have an account? <a href="/create-account">Create Account</a></p>
             </form>
         </div>
     );
