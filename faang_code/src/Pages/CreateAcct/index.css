@@ -4,6 +4,9 @@ body {
     align-items: center;
     height: 100vh;
 }
+h1 {
+    margin-left: 230px;
+}
 form {
     background-color: rgb(209, 232, 250);
     padding: 30px;
@@ -12,6 +15,7 @@ form {
     width: 400px;
     max-width: 100%;
     box-sizing: border-box;
+    margin-left: 230px;
     
 }
 .form-field {
@@ -35,6 +39,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="use
     box-sizing: border-box;
     margin-top: 8px;
     transition: border-color 0.3s ease;
+    margin-top: 4px;
 }
 
 .auth-buttons {

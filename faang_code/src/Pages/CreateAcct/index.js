@@ -61,7 +61,7 @@ function CreateAcct() {
 
     return (
         <div className="form-container">
-            <h1>Create an Account</h1>
+            <h1 >Create an Account</h1>
             {/* input firstname, lastname, username, email, password, etc */}
             <form onSubmit={handleSubmit}>
                 <div className="form-field">
