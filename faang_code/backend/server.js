@@ -53,6 +53,7 @@ app.post('/create-account', async (req, res) => {
     req.body.email,
   ];
 
+  let conn;
   try {
     const conn = await pool.getConnection();
     const result = await conn.query(sql, values);
