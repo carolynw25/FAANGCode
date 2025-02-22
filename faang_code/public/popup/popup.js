@@ -1,13 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const contentDiv = document.getElementById('content');
+    const port = chrome.runtime.connect({ name: "popup-connection" });
 
-    // Create a button
-    const button = document.createElement('button');
-    button.textContent = 'Click me';
-    contentDiv.appendChild(button);
-
-    // Add an event listener to the button
-    button.addEventListener('click', () => {
+    // Add an event listener to the button to call api when clicked
+    document.getElementById("callApiButton").addEventListener('click', () => {
+        port.postMessage({ action: "sendProblemData" })
         const message = document.createElement('p');
         message.textContent = 'Button clicked!';
         contentDiv.appendChild(message);
