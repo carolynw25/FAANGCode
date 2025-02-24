@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import React, { useState } from "react";
 import './index.css';
 import {useNavigate} from "react-router-dom";
 
@@ -132,7 +131,7 @@ function CreateAcct() {
                     <button type="submit" className="signup-btn">Sign Up</button>
                 </div>
 
-                <p>Already have an account? <a href="/login">Login</a></p>
+                <p>Already have an account? <a href="#/login">Login</a></p>
             </form>
         </div>
     );

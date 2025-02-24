@@ -50,7 +50,7 @@ function Login() {
     
                 </div>
 
-                <p>Don't have an account? <a href="/create-account">Create Account</a></p>
+                <p>Don't have an account? <a href="#/create-account">Create Account</a></p>
             </form>
         </div>
     );

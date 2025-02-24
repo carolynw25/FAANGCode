@@ -1,8 +1,12 @@
 .home-container {
     text-align: center;
     padding: 50px;
-}
+    margin-left: 240px;
 
+}
+.welcome {
+    margin-left:10px;
+}
 .auth-buttons {
     margin-top: 20px;
 }

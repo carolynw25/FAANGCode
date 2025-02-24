@@ -59,10 +59,15 @@ app.post('/create-account', async (req, res) => {
     const result = await conn.query(sql, values);
     conn.release();
 
+    console.log("Raw MariaDB Response:", result); //debugging bigInt error
+
     //mariaDB returns BigInt value, JS strinify cannot handle BigInt
     const serializedResult = JSON.parse(JSON.stringify(result, (_, value) =>
-      typeof value === "BigInt" ? value.toString() : value
+      typeof value === "bigint" ? value.toString() : value
     ));
+
+    console.log("Serialized Result:", serializedResult); // debug
+
 
     res.json({ message: "Account created successfully!", result });
   } catch (err) {

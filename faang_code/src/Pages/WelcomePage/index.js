@@ -7,7 +7,7 @@ function WelcomePage() {
 
     return (
         <div className="home-container">
-            <h1>Welcome to FAANGCode!</h1>
+            <h1 className="welcome">Welcome to FAANGCode!</h1>
             <p>Track your coding progress, get hints, and improve your problem-solving skills.</p>
             <div className="auth-buttons">
                 <button onClick={() => navigate('/login')} className="login-btn">Login</button>
