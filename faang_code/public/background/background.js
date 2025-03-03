@@ -1,34 +1,3 @@
-// const { GoogleGenerativeAI } = require("@google/generative-ai");
-//require('dotenv').config({ path: '../.env' });
-// console.log("starting");
-//
-
-// const genAI = new GoogleGenerativeAI(apiKey);
-// const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-// const prompt = `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: and this is my code:`;
-
-// async function generateContent(problemDescription, problemCode) {
-//     const fullPrompt = `${prompt}\n\nProblem Description: ${problemDescription}\n\nCode: ${problemCode}`;
-//     const result = await model.generateContent(fullPrompt);
-//     console.log(result.response.text());
-// }
-
-// // Listen for messages from the content script
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     if (message.action === "sendProblemData") {
-//         // Extract the data from the message
-//         const problemDescription = message.problemDescription;
-//         const problemCode = message.problemCode;
-
-//         // Log the data in the background script
-//         console.log("Received Problem Description in Background:", problemDescription);
-//         console.log("Received Problem Code in Background:", problemCode);
-
-//         // Call the generateContent function with the received data
-//         generateContent(problemDescription, problemCode);
-//     }
-// });
 chrome.runtime.onConnect.addListener((port) => {
     console.log("Connected to:", port.name);
 
@@ -38,7 +7,7 @@ chrome.runtime.onConnect.addListener((port) => {
         if (message.action === "sendProblemData") {
             try {
                 const prompt = await callGeminiAPI({
-                    prompt: `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: ${message.problemDescription} and this is my code: ${message.problemCode}`
+                    prompt: `You are an expert programmer. You will be given a coding problem and a solution to the problem. Your task is to analyze the code and determine if it is correct or not. If the code is correct, respond with "CORRECT". If the code is incorrect, respond with "INCORRECT" and provide a brief explanation of the error(s) in the code. The coding problem is as follows: ${message.problemDescription} and this is my code: ${message.problemCode}. This is leetcode syntax style question.`
                 });
 
                 port.postMessage({
@@ -52,14 +21,35 @@ chrome.runtime.onConnect.addListener((port) => {
                     message: error.toString()
                 });
             }
+        } else if (message.action === "callGeminiAPI") {
+            //console.log("hieee");
+            try {
+                //console.log(message.problemCode)
+                const prompt = `Looking at the problem description and your code, provide a hint to fix any debugging issues. If there are no debugging issues, say "The code looks good." If there is another optimal solution, suggest it. The problem description is: ${message.problemDescription}. This is my code: ${message.problemCode}: `; // Replace with your actual prompt
+                const response = await callGeminiAPI({ prompt });
+
+                //console.log("hi334eee");
+                //console.log(response);
+                port.postMessage({
+                    status: "success",
+                    GeminiAnswer: response
+                });
+            } catch (error) {
+                console.error("API call failed:", error);
+                port.postMessage({
+                    status: "error",
+                    message: error.toString()
+                });
+            }
         }
     });
 });
 
 async function callGeminiAPI(data) {
-    // Recommendation: Store API key securely, not in code
+    // Recommendation: Store API key securely, not in code IzaSyA-L0f8JbBf69Fi0VEdP-OV31Q-PzEIu_ A to Y
     const GEMINI_API_KEY = ""; // KEY HERE
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+    const model = "gemini-2.0-flash-lite-001"; // Updated model
+    const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
     try {
         const response = await fetch(url, {
@@ -88,25 +78,25 @@ async function callGeminiAPI(data) {
 }
 
 async function callGPTAPI(data) {
-    const GPT_KEY = ""
+    const GPT_KEY = "your_gpt_api_key"; // Replace with your actual GPT API key
     const options = {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${GPT_KEY}`,
-          "Content-Type": "application/json",
+            Authorization: `Bearer ${GPT_KEY}`,
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "user",
-              content: data.prompt,
-            },
-          ],
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "user",
+                    content: data.prompt,
+                },
+            ],
         }),
-      };
+    };
 
-    try{
+    try {
         const response = await fetch("https://api.openai.com/v1/chat/completions", options);
         if (!response.ok) {
             const errorBody = await response.text();
@@ -114,8 +104,7 @@ async function callGPTAPI(data) {
         }
         const chatGPTResults = await response.json();
         return chatGPTResults.choices[0].message.content;
-    }
-    catch (error) {
+    } catch (error) {
         console.error("API call error:", error);
         throw error;
     }
