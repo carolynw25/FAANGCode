@@ -8,22 +8,6 @@ const app = express();
 app.use(cors()); //allows frontend to call the backend
 app.use(express.json()); //parses JSON requests
 
-// Old way, but mariadb might require pooling. This is mysql way
-// const db = mariadb.createConnection ({
-//   host: 'localhost',
-//   user: 'user1',
-//   password: 'password1',
-//   database: 'faangUsers',
-// })
-// .then(conn => {
-//   // Use the connection object (conn) to execute queries
-//   console.log('Connected to MariaDB!');
-//   conn.close(); // Close the connection when done
-// })
-// .catch(err => {
-//   console.error('Error connecting to MariaDB:', err);
-// });
-
 const pool = mariadb.createPool({
   host: 'localhost',
   user: 'user1',
@@ -55,19 +39,16 @@ app.post('/create-account', async (req, res) => {
 
   let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query(sql, values);
     conn.release();
 
-    console.log("Raw MariaDB Response:", result); //debugging bigInt error
-
     //mariaDB returns BigInt value, JS strinify cannot handle BigInt
-    const serializedResult = JSON.parse(JSON.stringify(result, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value
-    ));
-
-    console.log("Serialized Result:", serializedResult); // debug
-
+    // Convert BigInt fields (like insertId) manually
+    // chatgpt solution to bigint issue
+    if (typeof result.insertId === "bigint") {
+      result.insertId = result.insertId.toString();
+    }
 
     res.json({ message: "Account created successfully!", result });
   } catch (err) {
@@ -78,37 +59,36 @@ app.post('/create-account', async (req, res) => {
   }
 });
 
-// Sample route to get users
-/*
-app.get('/users', async (req, res) => {
+app.post('/login', async (req, res) => {
+  // const username = req.body.username;
+  // const password = req.body.password;
+
+  const sql = "SELECT username, password FROM user_signup WHERE username = ?";
+  let conn;
   try {
-    const conn = await pool.getConnection();
-    const rows = await conn.query("SELECT * FROM users");
-    conn.release(); //release connection back to pool
-    res.json(rows); //sends results to frontend
+    conn = await pool.getConnection();
+    //query results in an array, first element of array contains username and password
+    //query just username to filter bc will hash password later
+    const result = await conn.query(sql, [req.body.username]);
+    conn.release();
+
+    if (result.length > 0) {
+      //password match check
+      if (result[0].password === req.body.password) {
+        res.json({ message: "Login successful!", user: { username: result[0].username } });
+      } else {
+        res.status(401).json({error: "Invalid password"});
+      }
+    } else {
+        res.status(401).json({error: "User not found"});
+      }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+      if (conn) conn.release(); // Release connection back to the pool, prevent connection leaks
   }
 });
-*/
-
-//original w/ connection w/out pooling
-// app.post('/create-account', (req, res) => {
-//   const sql = "INSERT INTO user_signup ('firstName', 'lastName', 'username', 'password', 'email') VALUES (?)";
-//   const values = [
-//     req.body.firstName,
-//     req.body.lastName,
-//     req.body.username,
-//     req.body.password,
-//     req.body.email,
-//   ] 
-//   db.query(sql, [values], (err, data) => {
-//     if(err) {
-//       return res.json("Error");
-//     }
-//     return res.json(data);
-//   })
-// })
 
 // Start server
 //const PORT = process.env.PORT || 5001;

@@ -11,8 +11,44 @@ function Login() {
     //     username: '',
     //     password: ''
     // })
-    const handleSubmit=(event) => {
-        event.preventDefault();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    
+    const handleSubmit= async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        // Collect form data from individual states
+        const formData = {
+            username,
+            password
+        };
+        
+        try {
+            const response = await fetch('http://localhost:8081/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+            console.log("Response:", response); // Log full response
+            console.log("Data:", data); // Log response body data
+
+            if (response.ok) {
+                console.log("Successful Login!");
+                navigate('/dashboard');  // If successful = Redirect
+            } else {
+                setError(data.message || 'Login failed');
+            }
+        } catch (err) {
+            setError('Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     }
 
     //Use fetch-command to send a POST request
@@ -45,11 +81,14 @@ function Login() {
                     />
                 </div>
 
+                {error && <div className="error">{error}</div>}
+
                 <div className="auth-buttons">
-                    <button onClick={() => navigate('/dashboard')} className="login-btn">Login</button>
+                    {/*<button onClick={() => navigate('/dashboard')} className="login-btn">Login</button>*/}
+                    <button type="submit" className="login-btn">Login</button>      
     
                 </div>
-
+                    {/*NOTE for later: change to "Link To" and  and import "Link" with "useNavigate"*/}
                 <p>Don't have an account? <a href="#/create-account">Create Account</a></p>
             </form>
         </div>
