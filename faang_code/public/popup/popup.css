@@ -1,6 +1,37 @@
 body {
+    border-radius: 5px;
     width: 200px;  
     height: 300px;
     background-color: #121A27;
-    border: gray;
+    border: 2px solid gray;
+    position: relative;
+}
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+}
+
+.banner {
+    display: flex;
+    column-gap: 15px;
+}
+
+.logo {
+    height: 10%;
+    width: 33%;
+    margin-left: 7px;
+}
+
+.hintButton {
+    position: absolute;
+    bottom: 10px; 
+    left: 50%;
+    transform: translateX(-50%); 
+}
+
+.name {
+    text-align: center;
+    color: whitesmoke;
+    font-size: 160%
 }
