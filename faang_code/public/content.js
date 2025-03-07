@@ -75,22 +75,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             problemCode: problemCode
         });
 
-        // Listen for the response from the background script
-        port.onMessage.addListener((response) => {
-            if (response.status === "success") {
-                console.log("Gemini API Response:", response.GeminiAnswer);
-                // Display the response in the content script
-                const responseElement = document.createElement('p');
-                responseElement.textContent = `Gemini API Response: ${response.GeminiAnswer}`;
-                document.body.appendChild(responseElement);
-            } else {
-                console.error("Gemini API Error:", response.message);
-                // Display the error in the content script
-                const errorElement = document.createElement('p');
-                errorElement.textContent = `Gemini API Error: ${response.message}`;
-                document.body.appendChild(errorElement);
-            }
-        });
+        // // Listen for the response from the background script
+        // port.onMessage.addListener((response) => {
+        //     if (response.status === "success") {
+        //         console.log("Gemini API Response:", response.GeminiAnswer);
+        //         // Display the response in the content script
+        //         const responseElement = document.createElement('p');
+        //         responseElement.textContent = `Gemini API Response: ${response.GeminiAnswer}`;
+        //         document.body.appendChild(responseElement);
+        //     } else {
+        //         console.error("Gemini API Error:", response.message);
+        //         // Display the error in the content script
+        //         const errorElement = document.createElement('p');
+        //         errorElement.textContent = `Gemini API Error: ${response.message}`;
+        //         document.body.appendChild(errorElement);
+        //     }
+        // });
     }
 });
 
