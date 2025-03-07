@@ -20,8 +20,8 @@ CIS4914 - Senior Project
    c) *when prompted for password*: Password1
 8. Create the database and select it<br/>
    a) CREATE DATABASE faangUsers;<br/>
-      i) To check sucess of database creation:;<br/>
-         ii) SHOW DATABASES;;<br/>
+      - To check sucess of database creation:;<br/>
+         - SHOW DATABASES;;<br/>
    b) USE faangUsers;
 10. Create the table<br/>
     a) CREATE TABLE user_signup (
@@ -32,8 +32,8 @@ CIS4914 - Senior Project
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
    );<br/>
-   b) To check sucess of table creation: <br/>
-      i) SHOW TABLES;
+      - To check sucess of table creation: <br/>
+         - SHOW TABLES;
 
 ## Steps to setup Database (for Ubuntu/Debian Linux)
 1. Install MariaDB with apt<br/>
