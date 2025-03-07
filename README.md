@@ -61,6 +61,7 @@ CIS4914 - Senior Project
 ## Steps to setup Chrome Extension
 1. Go to Gemini API Developer Kit and request a key <br/>
    a) Add the key into the background.js GeminiAPI function <br/>
-2. Go to chrome://extensions/ on Google Chrome <br/>
-3. Press load unpacked and go to the folder FAANGCode\faang_code\public <br/>
+2. Cd into the faang_code project folder and run 'npm run build' in terminal <br/>
+3. Go to chrome://extensions/ on Google Chrome <br/>
+4. Press load unpacked and go to the folder FAANGCode\faang_code\public <br/>
    
