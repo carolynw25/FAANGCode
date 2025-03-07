@@ -15,14 +15,25 @@ CIS4914 - Senior Project
 6. Refresh privilage tale to make changes applied to the database<br/>
    a) FLUSH PRIVILEGES;
 7. Exit the DBMS and login as new user<br/>
-   a) exit;
-   b) mysql -u user1 -p
+   a) exit;<br/>
+   b) mysql -u user1 -p<br/>
    c) *when prompted for password* Password1
 8. Create the database and select it<br/>
-   a) CREATE DATABASE faangUsers;
+   a) CREATE DATABASE faangUsers;<br/>
+      i) To check sucess of database creation:;<br/>
+         ii) SHOW DATABASES;;<br/>
    b) USE faangUsers;
-9. Create the table<br/>
-    a) CREATE TABLE user_signup;
+10. Create the table<br/>
+    a) CREATE TABLE user_signup (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+   );
+   b) To check sucess of table creation: <br/>
+      i) SHOW TABLES;
 
 ## Steps to setup Database (for Ubuntu/Debian Linux)
 1. Install MariaDB with apt<br/>
@@ -30,7 +41,7 @@ CIS4914 - Senior Project
 2. Add the repository that contains the pacakges to install mariaDB 11.5.2 on Ubuntu system<br/>
    a) curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.5.2
 3. Install MariaDB server and client packages from configured repositories<br/>
-   a) sudo apt update
+   a) sudo apt update<br/>
    b) sudo apt -y install mariadb-server mariadb-client
 4. Start database server<br/>
    a) sudo systemctl start mariadb
