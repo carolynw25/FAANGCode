@@ -3,7 +3,7 @@ CIS4914 - Senior Project
 
 ## Steps to setup Database (for MacOS)
 1. Install MariaDB with Homebrew:
-   a) brew install mariadb
+   /na) brew install mariadb
 3. Start the database server:
    a) brew services start mariadb
 5. Login as root (Note: password for sudo command is same as computer login password)
