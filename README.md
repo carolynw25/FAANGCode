@@ -26,7 +26,7 @@ CIS4914 - Senior Project
 ## Steps to run FAANGCode
 1. In terminal clone the repository:<br/>
    a) git clone https://github.com/carolynw25/FAANGCode.git
-2. Then cd into "faang_code"<br/>
-   a) Run "npm start" to start the FrontEnd
-3. In a separate terminal, cd into "faang_code/backend"<br/>
-   a) Run "npm start" to start the BackEnd
+2. Then cd into "faang_code" to start the FrontEnd<br/>
+   a) Run "npm start"
+3. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
+   a) Run "npm start"
