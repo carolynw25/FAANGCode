@@ -9,7 +9,7 @@ CIS4914 - Senior Project
 3. Login as root (Note: password for sudo command is same as computer login password)<br/>
    a) sudo mysql -u root
 4. Create a new user<br/>
-   a) CREATE USER 'user1@localhost' IDENTIFIED BY 'password1';
+   a) CREATE USER 'user1'@'localhost' IDENTIFIED BY 'password1';
 5. Grant privileges to all databases and tables to the new created user<br/>
    a) GRANT ALL PRIVILEGES ON \*.\* TO user1@localhost';
 6. Refresh privilage tale to make changes applied to the database<br/>
