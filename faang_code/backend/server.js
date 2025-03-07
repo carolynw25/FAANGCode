@@ -2,7 +2,7 @@
 const express = require('express');
 const mariadb = require('mariadb');
 const cors = require('cors'); //cross-origin requests enabled
-//const pool = require('./db'); // imports database connection
+const bcrypt = require('bcrypt'); // password hashing
 
 const app = express();
 app.use(cors()); //allows frontend to call the backend
@@ -29,16 +29,18 @@ pool.getConnection()
 // POST request that uses pool
 app.post('/create-account', async (req, res) => {
   const sql = "INSERT INTO user_signup (firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?)";
-  const values = [
-    req.body.firstName,
-    req.body.lastName,
-    req.body.username,
-    req.body.password,
-    req.body.email,
-  ];
 
   let conn;
   try {
+    const saltRounds = 10; //higher = better more security, but slower
+    const hashPass = await bcrypt.hash(req.body.password, saltRounds);
+    const values = [
+      req.body.firstName,
+      req.body.lastName,
+      req.body.username,
+      hashPass,
+      req.body.email,
+    ];
     conn = await pool.getConnection();
     const result = await conn.query(sql, values);
     conn.release();
@@ -74,7 +76,8 @@ app.post('/login', async (req, res) => {
 
     if (result.length > 0) {
       //password match check
-      if (result[0].password === req.body.password) {
+      //without bcrypt: "result[0].password === req.body.password", now use bcrypt.compare
+      if (await bcrypt.compare(req.body.password, result[0].password)) {
         res.json({ message: "Login successful!", user: { username: result[0].username } });
       } else {
         res.status(401).json({error: "Invalid password"});
@@ -89,6 +92,48 @@ app.post('/login', async (req, res) => {
       if (conn) conn.release(); // Release connection back to the pool, prevent connection leaks
   }
 });
+
+app.post('/save-extension-data', async (req, res) => {
+  const sql = `
+    INSERT INTO user_data (id) VALUES (?)
+    ON DUPLICATE KEY UPDATE 
+      totalNumHintsEasy = totalNumHintsEasy + ?,
+      totalNumHintsMedium = totalNumHintsMedium + ?,
+      totalNumHintsHard = totalNumHintsHard + ?,
+      totalProblemsSolved = totalProblemsSolved + ?,
+      numEasy = numEasy + ?,
+      numMedium = numMedium + ?,
+      numHard = numHard + ?
+  `;
+
+  let conn;
+  try {
+    const { id, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard, totalProblemsSolved, numEasy, numMedium, numHard } = req.body;
+
+    const values = [
+      id, 
+      totalNumHintsEasy, 
+      totalNumHintsMedium, 
+      totalNumHintsHard, 
+      totalProblemsSolved,
+       numEasy, 
+       numMedium, 
+       numHard
+    ];
+
+    conn = await pool.getConnection();
+    const result = await conn.query(sql, values);
+    conn.release();
+
+    res.json({ message: "User data is updated successfully!", result });
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 
 // Start server
 //const PORT = process.env.PORT || 5001;
