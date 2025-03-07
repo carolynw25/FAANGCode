@@ -17,7 +17,7 @@ CIS4914 - Senior Project
 7. Exit the DBMS and login as new user<br/>
    a) exit;<br/>
    b) mysql -u user1 -p<br/>
-   c) *when prompted for password*: Password1
+   c) *when prompted for password*: password1
 8. Create the database and select it<br/>
    a) CREATE DATABASE faangUsers;<br/>
    b) USE faangUsers;
