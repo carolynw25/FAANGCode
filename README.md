@@ -21,7 +21,7 @@ CIS4914 - Senior Project
 8. Create the database and select it<br/>
    a) CREATE DATABASE faangUsers;<br/>
       - To check sucess of database creation:;<br/>
-         - SHOW DATABASES;;<br/>
+         - SHOW DATABASES;<br/>
    b) USE faangUsers;
 10. Create the table<br/>
     a) CREATE TABLE user_signup (
