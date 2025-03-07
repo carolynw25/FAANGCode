@@ -93,6 +93,48 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/save-extension-data', async (req, res) => {
+  const sql = `
+    INSERT INTO user_data (id) VALUES (?)
+    ON DUPLICATE KEY UPDATE 
+      totalNumHintsEasy = totalNumHintsEasy + ?,
+      totalNumHintsMedium = totalNumHintsMedium + ?,
+      totalNumHintsHard = totalNumHintsHard + ?,
+      totalProblemsSolved = totalProblemsSolved + ?,
+      numEasy = numEasy + ?,
+      numMedium = numMedium + ?,
+      numHard = numHard + ?
+  `;
+
+  let conn;
+  try {
+    const { id, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard, totalProblemsSolved, numEasy, numMedium, numHard } = req.body;
+
+    const values = [
+      id, 
+      totalNumHintsEasy, 
+      totalNumHintsMedium, 
+      totalNumHintsHard, 
+      totalProblemsSolved,
+       numEasy, 
+       numMedium, 
+       numHard
+    ];
+
+    conn = await pool.getConnection();
+    const result = await conn.query(sql, values);
+    conn.release();
+
+    res.json({ message: "User data is updated successfully!", result });
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
+
 // Start server
 //const PORT = process.env.PORT || 5001;
 //app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
