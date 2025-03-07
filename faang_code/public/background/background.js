@@ -54,8 +54,8 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 async function callGeminiAPI(data) {
-    // Key is something AY IzaSyA-L0f8JbBf69Fi0VEdP-OV31Q-PzEIu_ dsafasfa
-    const GEMINI_API_KEY = "AIzaSyA-L0f8JbBf69Fi0VEdP-OV31Q-PzEIu_Y"; // KEY HERE
+    // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
+    const GEMINI_API_KEY = ""; // KEY HERE
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
