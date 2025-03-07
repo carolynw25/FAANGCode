@@ -23,7 +23,11 @@ chrome.runtime.onConnect.addListener((port) => {
             }
         } else if (message.action === "callGeminiAPI") {
             try {
-                const prompt = `Looking at the problem description and your code, provide a hint to fix any debugging issues. If there are no debugging issues, say "The code looks good." If there is another optimal solution, suggest it. The problem description is: ${message.problemDescription}. This is my code: ${message.problemCode}: `;
+                const prompt = `Looking at the problem description and the given code, provide a hint to fix any debugging issues. 
+                The hint should be a short and simple hint without being too long.
+                If there are no debugging issues, say "The code looks good." If there is another optimal solution, 
+                give a hint towards it but do not give the solution outright. 
+                The problem description is: ${message.problemDescription}. This is my code: ${message.problemCode}`;
                 const response = await callGeminiAPI({ prompt });
 
                 port.postMessage({
@@ -55,7 +59,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
 async function callGeminiAPI(data) {
     // Key is something AY IzaSyA-L0f8JbBf69Fi0VEdP-OV31Q-PzEIu_ dsafasfa
-    const GEMINI_API_KEY = ""; // KEY HERE
+    const GEMINI_API_KEY = "AIzaSyA-L0f8JbBf69Fi0VEdP-OV31Q-PzEIu_Y"; // KEY HERE
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
