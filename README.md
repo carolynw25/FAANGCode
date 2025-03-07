@@ -23,6 +23,19 @@ CIS4914 - Senior Project
    b) USE faangUsers;
 9. Create the table<br/>
     a) CREATE TABLE user_signup;
+
+## Steps to setup Database (for Ubuntu/Debian Linux)
+1. Install MariaDB with apt<br/>
+   a) sudo apt update
+2. Add the repository that contains the pacakges to install mariaDB 11.5.2 on Ubuntu system<br/>
+   a) curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.5.2
+3. Install MariaDB server and client packages from configured repositories<br/>
+   a) sudo apt update
+   b) sudo apt -y install mariadb-server mariadb-client
+4. Start database server<br/>
+   a) sudo systemctl start mariadb
+5. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
+   
 ## Steps to run FAANGCode
 1. In terminal clone the repository:<br/>
    a) git clone https://github.com/carolynw25/FAANGCode.git
