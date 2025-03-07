@@ -11,7 +11,7 @@ CIS4914 - Senior Project
 4. Create a new user<br/>
    a) CREATE USER 'user1@localhost' IDENTIFIED BY 'password1';
 5. Grant privileges to all databases and tables to the new created user<br/>
-   a) GRANT ALL PRIVILEGES ON *.* TO user1@localhost';
+   a) GRANT ALL PRIVILEGES ON \*.\* TO user1@localhost';
 6. Refresh privilage tale to make changes applied to the database<br/>
    a) FLUSH PRIVILEGES;
 7. Exit the DBMS and login as new user<br/>
