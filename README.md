@@ -32,7 +32,7 @@ CIS4914 - Senior Project
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
    );<br/>
-   CREATE TABLE user_data (
+   b) CREATE TABLE user_data (
     id INT PRIMARY KEY,
     totalNumHintsEasy INT NOT NULL DEFAULT 0,
     totalNumHintsMedium INT NOT NULL DEFAULT 0,
