@@ -53,4 +53,9 @@ CIS4914 - Senior Project
 2. Then cd into "faang_code" to start the FrontEnd<br/>
    a) Run "npm start"
 3. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
-   a) Run "npm start"
+   a) Run "npm start"<br/>
+   Note: if an error with nodemon occurs run: npm install nodemon --save-dev<br/>
+   Note: if an error with babel occurs run: npm ls babel-loader
+
+## Steps to setup Chrome Extension
+1. 
