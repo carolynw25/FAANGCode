@@ -52,5 +52,11 @@ CIS4914 - Senior Project
    a) git clone https://github.com/carolynw25/FAANGCode.git
 2. Then cd into "faang_code" to start the FrontEnd<br/>
    a) Run "npm start"
-3. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
-   a) Run "npm start"
+   Note: if babel-error run: del package-lock.json, rm node_modules (Press Y), npm install
+4. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
+   a) Run "npm start"<br/>
+   Note: if an error with nodemon occurs run: npm install nodemon --save-dev<br/>
+   Note: if an error with babel occurs run: npm ls babel-loader
+
+## Steps to setup Chrome Extension
+1. 
