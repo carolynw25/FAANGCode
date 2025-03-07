@@ -23,6 +23,9 @@ function Navbar() {
                     <li className="nav-item">
                         <Link to="/profile" className="nav-link">Profile</Link>
                     </li>
+                    <li className="nav-item mt-auto">
+                        <Link to="/login" className="nav-link">Sign Out</Link>
+                    </li>
                 </ul>
             </nav>
 
