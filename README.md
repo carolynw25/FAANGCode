@@ -32,6 +32,16 @@ CIS4914 - Senior Project
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
    );<br/>
+   CREATE TABLE user_data (
+    id INT PRIMARY KEY,
+    totalNumHintsEasy INT NOT NULL DEFAULT 0,
+    totalNumHintsMedium INT NOT NULL DEFAULT 0,
+    totalNumHintsHard INT NOT NULL DEFAULT 0,
+    totalProblemsSolved INT DEFAULT 0,
+    numEasy INT DEFAULT 0,
+    numMedium INT DEFAULT 0,
+    numHard INT DEFAULT 0
+   ); <br/>
       - To check sucess of table creation: <br/>
          - SHOW TABLES;
 
