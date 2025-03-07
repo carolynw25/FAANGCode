@@ -17,7 +17,7 @@ CIS4914 - Senior Project
 7. Exit the DBMS and login as new user<br/>
    a) exit;<br/>
    b) mysql -u user1 -p<br/>
-   c) *when prompted for password* Password1
+   c) *when prompted for password*: Password1
 8. Create the database and select it<br/>
    a) CREATE DATABASE faangUsers;<br/>
       i) To check sucess of database creation:;<br/>
@@ -31,7 +31,7 @@ CIS4914 - Senior Project
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
-   );
+   );<br/>
    b) To check sucess of table creation: <br/>
       i) SHOW TABLES;
 
