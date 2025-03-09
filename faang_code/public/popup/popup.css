@@ -25,21 +25,14 @@ body {
     margin-left: 7px;
 }
 
-/*.hintButton {
-    position: absolute;
-    bottom: 10px; 
-    left: 50%;
-    transform: translateX(-50%); 
-}*/
-
 .buttonContainer {
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     position: relative;
     margin-top: 30px;
+    gap: 8px;
 }
 
 #projectName {
@@ -55,12 +48,12 @@ body {
 .btn {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 16px;
     margin: 10px 0;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 13px;
 }
 
 .btn:hover {
@@ -70,6 +63,7 @@ body {
 #messageContainer {
     margin-top: 20px;
     font-size: 14px;
+    padding: 10px;
 }
 
 
