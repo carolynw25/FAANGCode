@@ -32,6 +32,16 @@ CIS4914 - Senior Project
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
    );<br/>
+   b) CREATE TABLE user_data (
+    id INT PRIMARY KEY,
+    totalNumHintsEasy INT NOT NULL DEFAULT 0,
+    totalNumHintsMedium INT NOT NULL DEFAULT 0,
+    totalNumHintsHard INT NOT NULL DEFAULT 0,
+    totalProblemsSolved INT DEFAULT 0,
+    numEasy INT DEFAULT 0,
+    numMedium INT DEFAULT 0,
+    numHard INT DEFAULT 0
+   ); <br/>
       - To check sucess of table creation: <br/>
          - SHOW TABLES;
 
@@ -56,7 +66,12 @@ CIS4914 - Senior Project
 4. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
    a) Run "npm start"<br/>
    Note: if an error with nodemon occurs run: npm install nodemon --save-dev<br/>
-   Note: if an error with babel occurs run: npm ls babel-loader
+   Note: if an error with babel occurs run: npm ls babel-loader <br/>
 
 ## Steps to setup Chrome Extension
-1. 
+1. Go to Gemini API Developer Kit and request a key <br/>
+   a) Add the key into the background.js GeminiAPI function <br/>
+2. Cd into the faang_code project folder and run 'npm run build' in terminal <br/>
+3. Go to chrome://extensions/ on Google Chrome <br/>
+4. Press load unpacked and go to the folder FAANGCode\faang_code\public <br/>
+   
