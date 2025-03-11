@@ -41,6 +41,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.getElementById("debugButton").addEventListener('click', () => {
+        // Send a message to the content script to get the problem description and code
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "debugButtonClicked" });
+        });
+    });
+
+    document.getElementById("complexityButton").addEventListener('click', () => {
+        // Send a message to the content script to get the problem description and code
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "complexityButtonClicked" });
+        });
+    });
+
     chrome.runtime.onMessage.addListener((response) => {
         const message = document.createElement('p');
         if (response.status === "success") {
