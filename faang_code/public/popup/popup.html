@@ -3,13 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extension Popup</title>
+    <title>FAANGCode Extension</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-    <div> 
-        <button id="callApiButton">Call API</button>
-        <script src="popup.js"></script>
+    <div class = "container">
+        <div class = "banner">
+            <div class = "logo">
+                <img src="../images/Gator.png">
+            </div>
+            <div class = "name">
+                <a href="http://localhost:3000/#/login" target="_blank" rel="noopener noreferrer" id = "projectName">FAANGCode</a>
+            </div>
+        </div>
+        <div class = "buttonContainer">
+            <button id="hintButton" class="btn">Hint</button>
+            <button id="debugButton" class="btn">Debug</button>
+            <button id="complexityButton" class="btn">Complexity</button>
+        </div>
+        <div id="messageContainer"></div>
     </div>
+    <script src="popup.js"></script>
 </body>
 </html>

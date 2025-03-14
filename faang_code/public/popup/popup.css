@@ -1,6 +1,71 @@
 body {
-    width: 200px;  
-    height: 300px;
+    width: 250px;
+    height: 350px;
     background-color: #121A27;
-    border: gray;
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    border-radius: 5px;
+    border: 2px solid gray;
 }
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+}
+
+.banner {
+    display: flex;
+    column-gap: 15px;
+}
+
+.logo {
+    height: 10%;
+    width: 33%;
+    margin-left: 7px;
+}
+
+.buttonContainer {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 30px;
+    gap: 8px;
+}
+
+#projectName {
+    font-size: 20px;
+    color: inherit; 
+    text-decoration: none; 
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    font-weight: bold;
+}
+
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+#messageContainer {
+    margin-top: 20px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+
+
+

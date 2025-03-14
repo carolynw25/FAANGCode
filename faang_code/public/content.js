@@ -62,4 +62,47 @@ window.addEventListener('load', async () => {
 
 });
 
+// Listen for messages from the popup script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === "hintButtonClicked") {
+        console.log("Hint button clicked in popup, handling in content script...");
+        // Add your logic here to handle the hint button click
+
+        // Send a message to the background script to call the Gemini API
+        port.postMessage({
+            action: "callGeminiAPIHint",
+            problemDescription: problemDescription,
+            problemCode: problemCode
+        });
+    }
+
+    if (message.action === "debugButtonClicked") {
+        console.log("Hint button clicked in popup, handling in content script...");
+        // Add your logic here to handle the hint button click
+
+        // Send a message to the background script to call the Gemini API
+        port.postMessage({
+            action: "callGeminiAPIDebug",
+            problemDescription: problemDescription,
+            problemCode: problemCode
+        });
+
+    }
+
+    if (message.action === "complexityButtonClicked") {
+        console.log("Hint button clicked in popup, handling in content script...");
+        // Add your logic here to handle the hint button click
+
+        // Send a message to the background script to call the Gemini API
+        port.postMessage({
+            action: "callGeminiAPIComplexity",
+            problemDescription: problemDescription,
+            problemCode: problemCode
+        });
+    }
+}
+
+
+);
+
 
