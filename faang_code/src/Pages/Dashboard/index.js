@@ -13,6 +13,11 @@ function Dashboard() {
         //2. the user's code
         //3. the AI feedback
         // etc.?
+    //add more features:
+        //Number of Problems Solved Over Time (Another line chart or bar chart)
+        // Hints Used vs. Problems Solved Over Time (Track efficiency)
+        //recent activity: display most recent coding attempt
+        //badges
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [{
@@ -48,6 +53,13 @@ function Dashboard() {
             {/* track progress over time*/}
             <div className="chart-container">
                 <Line data={chartData} options={{responsive: true, maintainAspectRatio: false}}/>
+            </div>
+
+            {/* grab from DB later...*/}
+            <div className="stats-container">
+                <div className="stat-item"><h3>Total Problems Solved✅</h3><p>20</p></div>
+                <div className="stat-item"><h3>Difficulty Breakdown📊</h3><p>Easy: 15 | Medium: 3 | Hard: 2</p></div>
+                <div className="stat-item"><h3>AI Hints Used🧠</h3> <p>47</p></div>
             </div>
         </div>
     );

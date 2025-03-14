@@ -26,3 +26,18 @@ body {
     font-size: 40px;
     color: #4caaf2;
 }
+.stats-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    margin-left: 230px;
+    margin-top: 60px;
+}
+
+.stat-item {
+    background-color: #a6d9ff;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+}
