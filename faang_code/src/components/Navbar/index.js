@@ -12,10 +12,7 @@ function Navbar() {
                         <Link to="/dashboard" className="nav-link">Dashboard</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/problems" className="nav-link">Problems</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/history" className="nav-link">History</Link>
+                        <Link to="/problems" className="nav-link">Problem History</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/settings" className="nav-link">Settings</Link>
