@@ -2,9 +2,9 @@
 //import Problems from "../../components/Problems";
 import './index.css';
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+import { Line, Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
 
 
 function Dashboard() {
@@ -45,6 +45,24 @@ function Dashboard() {
         });
     }, []);
 
+    // Hardcoded Data for Problems Solved Over Time
+    const barChartData = {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+        datasets: [{
+            label: 'Problems Solved',
+            data: [3, 5, 8, 6, 10], // Example numbers
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+    const barChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    };
 
     return (
         <div>
@@ -53,6 +71,11 @@ function Dashboard() {
             {/* track progress over time*/}
             <div className="chart-container">
                 <Line data={chartData} options={{responsive: true, maintainAspectRatio: false}}/>
+            </div>
+
+            {/* Problems Solved Over Time Bar Chart */}
+            <div className="chart-container">
+                <Bar data={barChartData} options={barChartOptions}/>
             </div>
 
             {/* grab from DB later...*/}
