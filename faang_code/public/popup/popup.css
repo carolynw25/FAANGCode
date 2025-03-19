@@ -10,6 +10,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+
 #contentContainer {
     display: flex;
     flex-direction: column;
@@ -54,6 +55,25 @@ body {
     font-weight: bold;
 }
 
+
+
+#debugButton {
+    background-color: #FF6347; /* Red for Debug button */
+}
+
+#debugButton:hover {
+    background-color: #FF4500; /* Slightly darker red on hover */
+}
+
+#complexityButton {
+    background-color: #4682B4; /* Blue for Complexity button */
+}
+
+#complexityButton:hover {
+    background-color: #4169E1; /* Slightly darker blue on hover */
+}
+
+
 .btn {
     background-color: #4CAF50;
     color: white;
@@ -68,13 +88,53 @@ body {
 .btn:hover {
     background-color: #45a049;
 }
+/* Style for the most recent message */
+.most-recent {
+    font-weight: bold; /* Make the most recent message bold */
+    margin-top: 1px;
+    margin-bottom: 0px;
+}
+
 
 #messageContainer {
-    margin-top: 20px;
+    font-weight: normal; /* Ensure older messages are not bold */
+
+    margin-top: 10px;
     font-size: 14px;
     padding: 10px;
     width: 100%; /* Ensure the message container spans the full width */
     box-sizing: border-box; /* Include padding within the width */
 }
+.divider {
+    border: none; /* Remove default border */
+    border-top: 2px solid white; /* Add a white horizontal line */
+    margin: 1px 0; /* Add spacing above and below the line */
+    width: 100%; /* Make it span the full width of the container */
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+}
 
+.highlight-hint {
+    background-color: #4CAF50; /* Green */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
 
+/* Highlight effect for Debug button */
+.highlight-debug {
+    background-color: #FF6347; /* Red */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
+
+/* Highlight effect for Complexity button */
+.highlight-complexity {
+    background-color: #4682B4; /* Blue */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
