@@ -1,12 +1,21 @@
 body {
     width: 250px;
-    height: 350px;
+    min-height: 350px; /* Allow the height to grow dynamically */
     background-color: #121A27;
     color: #FFFFFF;
     font-family: Arial, sans-serif;
     margin: 0;
     border-radius: 5px;
     border: 2px solid gray;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#contentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box; /* Ensure padding doesn't affect the border */
 }
 
 .logo img {
@@ -31,14 +40,14 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: 30px;
+    margin-top: 0px;
     gap: 8px;
 }
 
 #projectName {
     font-size: 20px;
-    color: inherit; 
-    text-decoration: none; 
+    color: inherit;
+    text-decoration: none;
     cursor: pointer;
     position: absolute;
     top: 15px;
@@ -64,8 +73,8 @@ body {
     margin-top: 20px;
     font-size: 14px;
     padding: 10px;
+    width: 100%; /* Ensure the message container spans the full width */
+    box-sizing: border-box; /* Include padding within the width */
 }
-
-
 
 
