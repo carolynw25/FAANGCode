@@ -157,10 +157,8 @@ Time Complexity: O(?), Space Complexity: O(?)
 });
 
 async function callGeminiAPI(data) {
-
     // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
     const GEMINI_API_KEY = ""; // KEY HERE
-
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -182,9 +180,29 @@ async function callGeminiAPI(data) {
             throw new Error(`Gemini API error: ${response.status} ${errorBody}`);
         }
 
-        const result = await response.json();
+        /*const result = await response.json();
+        const updateDBResponse = await fetch('http://localhost:8081//save-extension-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+
+        const dbData = await updateDBResponse.json();
+        console.log("Response:", updateDBResponse);
+        console.log("Data:", dbData);
+
+        if (updateDBResponse.ok) {
+            console.log("Successful user data update");
+        } 
+        else {
+            setError(dbData.message || 'User data failed to update');
+        }
+        */
         return result.candidates[0].content.parts[0].text;
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("API call error:", error);
         throw error;
     }

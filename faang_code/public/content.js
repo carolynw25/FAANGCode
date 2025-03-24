@@ -4,9 +4,18 @@ console.log("hi");
 
 let problemDescription = '';
 let problemCode = ''; // Global variable to store the extracted code
+let problemTag = '';
 
 // Function to wait for a specified time
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+//Function to extract the difficulty tag
+const extractDifficulty = () => {
+    const difficultyClasses = ["text-difficulty-easy", "text-difficulty-medium", "text-difficulty-hard"];
+    const tagElement = document.querySelector(`.relative.inline-flex.items-center.justify-center.text-caption.px-2.py-1.gap-1.rounded-full.bg-fill-secondary.${difficultyClasses.join(", .")}`);
+    problemTag = tagElement.textContent.trim()
+    console.log(problemTag);
+}
 
 // Function to extract the problem description
 const extractDescription = () => {
@@ -57,6 +66,7 @@ window.addEventListener('load', async () => {
 
     // Wait 3 seconds for the description to load
     await wait(3000);
+    extractDifficulty();
     extractDescription();
 
     // Wait an additional 2 seconds for the code to load
@@ -69,6 +79,7 @@ window.addEventListener('load', async () => {
 
     port.postMessage({
         action: "sendProblemData",
+        problemTag: problemTag,
         problemDescription: problemDescription,
         problemCode: problemCode
     });
