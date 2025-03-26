@@ -14,6 +14,7 @@ const extractDifficulty = () => {
     const difficultyClasses = ["text-difficulty-easy", "text-difficulty-medium", "text-difficulty-hard"];
     const tagElement = document.querySelector(`.relative.inline-flex.items-center.justify-center.text-caption.px-2.py-1.gap-1.rounded-full.bg-fill-secondary.${difficultyClasses.join(", .")}`);
     problemTag = tagElement.textContent.trim()
+    //return problemTag;
     console.log(problemTag);
 }
 
@@ -76,7 +77,7 @@ window.addEventListener('load', async () => {
     // Log the final results
     console.log("Final Problem Description:", problemDescription);
     console.log("Final Problem Code:", problemCode);
-
+    console.log("Final Problem Tag:", problemTag);
     port.postMessage({
         action: "sendProblemData",
         problemTag: problemTag,
@@ -95,6 +96,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         console.log("Hint button clicked in popup, handling in content script...");
         port.postMessage({
             action: "callGeminiAPIHint",
+            problemTag: problemTag,
             problemDescription: problemDescription,
             problemCode: problemCode
         });
