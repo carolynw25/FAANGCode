@@ -36,6 +36,46 @@ chrome.runtime.onConnect.addListener((port) => {
                     action: message.action
                 });
 
+                //update DB with user stats
+                const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
+                difficultyValues[message.problemTag] = 1;
+                
+                //temp values
+                let id = "123"; 
+                let totalProblemsSolved = 0;
+                let numEasy = 1;
+                let numMedium = 0;
+                let numHard = 0;
+                
+                const updateData = {
+                    id,
+                    totalNumHintsEasy: difficultyValues.Easy,
+                    totalNumHintsMedium: difficultyValues.Medium,  
+                    totalNumHintsHard: difficultyValues.Hard, 
+                    totalProblemsSolved,
+                    numEasy, 
+                    numMedium, 
+                    numHard
+                };
+                const updateDBResponse = await fetch('http://localhost:8081/save-extension-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updateData)
+                });
+        
+                const dbData = await updateDBResponse.json();
+                console.log("Response:", updateDBResponse);
+                console.log("Data:", dbData);
+        
+                if (updateDBResponse.ok) {
+                    console.log("Successful user data update");
+                } 
+                else {
+                    console.log('User data failed to update');
+                }
+
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
@@ -180,26 +220,7 @@ async function callGeminiAPI(data) {
             throw new Error(`Gemini API error: ${response.status} ${errorBody}`);
         }
 
-        /*const result = await response.json();
-        const updateDBResponse = await fetch('http://localhost:8081//save-extension-data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        });
-
-        const dbData = await updateDBResponse.json();
-        console.log("Response:", updateDBResponse);
-        console.log("Data:", dbData);
-
-        if (updateDBResponse.ok) {
-            console.log("Successful user data update");
-        } 
-        else {
-            setError(dbData.message || 'User data failed to update');
-        }
-        */
+        const result = await response.json();
         return result.candidates[0].content.parts[0].text;
     } 
     catch (error) {

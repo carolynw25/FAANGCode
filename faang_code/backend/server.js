@@ -116,9 +116,9 @@ app.post('/save-extension-data', async (req, res) => {
       totalNumHintsMedium, 
       totalNumHintsHard, 
       totalProblemsSolved,
-       numEasy, 
-       numMedium, 
-       numHard
+      numEasy, 
+      numMedium, 
+      numHard
     ];
 
     conn = await pool.getConnection();
