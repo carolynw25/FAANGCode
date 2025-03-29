@@ -1,23 +1,32 @@
+body, html {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color:azure;
+}
+
 .main-content {
     display: flex;
     justify-content: space-evenly;
     gap: 20px;
-    margin: 20px;
-    flex-wrap: wrap; /* Allow boxes to wrap when screen shrunk */
-    margin-left: 230px;  /* Space for the navbar */
+    padding: 20px;
+    flex-wrap: wrap;
+    margin-left: 230px;
+    margin-top: 20px;
 }
-body {
-    background-color:azure;
-}
+
 
 .chart-container {
     display: flex;
     margin-left: 230px;
     justify-content: center;
     align-items: center;
-    width: 100%; /* Reduced from 100% */
-    height: 400px; /* Fixed height */
-    max-width: 800px; /* Maximum width */
+    width: 100%;
+    height: 400px;
+    max-width: 800px;
+    padding: 20px 0;
 }
 
 .title {
@@ -25,4 +34,24 @@ body {
     font-style: normal;
     font-size: 40px;
     color: #4caaf2;
+    margin-left: 230px;
+    margin-top: 400px; /* title keeps going off screen idk.. */
+    padding: 20px 0;
+}
+.stats-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 230px;
+    padding: 20px 0;
+}
+
+.stat-item {
+    background-color: #a6d9ff;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
 }

@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+h1 {
+    margin-left: 230px;
+}
+form {
+    background-color: rgb(209, 232, 250);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: 230px;
+
+}
+.form-field {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="username"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-top: 8px;
+    transition: border-color 0.3s ease;
+    margin-top: 4px;
+}
+
+.auth-buttons {
+    margin-top: 20px;
+}
+
+.auth-buttons button {
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.signup-btn {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+.signup-btn:hover {
+    background-color: #218838;
+}
+
+.auth-buttons p {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.auth-buttons a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-buttons a:hover {
+    text-decoration: underline;
+}

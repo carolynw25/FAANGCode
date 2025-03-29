@@ -7,7 +7,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
 import ProblemList from './Pages/ProblemList';
 import Problems from './components/Problems';
-import History from './Pages/History';
+//import History from './Pages/History';
 import Profile from './Pages/Profile';
 import Settings from './Pages/Settings';
 import Login from './Pages/Login';
@@ -23,7 +23,6 @@ function App() {
                 <Routes>
                     <Route path="/" element={<WelcomePage />} />
                     <Route path="/problems" element={<ProblemList />} />
-                    <Route path="/history" element={<History />} />
                     <Route path="/profile" element={<Profile/>}/>
                     <Route path="/settings" element={<Settings/>}/>
                     <Route path="/login" element={<Login />} />
