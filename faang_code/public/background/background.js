@@ -32,13 +32,55 @@ chrome.runtime.onConnect.addListener((port) => {
 
                 port.postMessage({
                     status: "success",
-                    GeminiAnswer: response
+                    GeminiAnswer: response,
+                    action: message.action
                 });
+
+                //update DB with user stats
+                const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
+                difficultyValues[message.problemTag] = 1;
+                
+                //temp values
+                let id = "123"; 
+                let totalProblemsSolved = 0;
+                let numEasy = 1;
+                let numMedium = 0;
+                let numHard = 0;
+                
+                const updateData = {
+                    id,
+                    totalNumHintsEasy: difficultyValues.Easy,
+                    totalNumHintsMedium: difficultyValues.Medium,  
+                    totalNumHintsHard: difficultyValues.Hard, 
+                    totalProblemsSolved,
+                    numEasy, 
+                    numMedium, 
+                    numHard
+                };
+                const updateDBResponse = await fetch('http://localhost:8081/save-extension-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updateData)
+                });
+        
+                const dbData = await updateDBResponse.json();
+                console.log("Response:", updateDBResponse);
+                console.log("Data:", dbData);
+        
+                if (updateDBResponse.ok) {
+                    console.log("Successful user data update");
+                } 
+                else {
+                    console.log('User data failed to update');
+                }
 
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
-                    GeminiAnswer: response
+                    GeminiAnswer: response,
+                    action: message.action
                 });
             } catch (error) {
                 console.error("API call failed:", error);
@@ -56,86 +98,38 @@ chrome.runtime.onConnect.addListener((port) => {
         }
         else if (message.action === "callGeminiAPIDebug") {
             try {
-                const prompt = `You are an expert programmer with a deep understanding of debugging and error identification in LeetCode-style coding problems. Your task is to analyze a given piece of code and identify only the errors that will break the code (e.g., syntax errors, runtime errors, or logical flaws that prevent the code from functioning correctly). Ignore formatting issues, stylistic improvements, or minor optimizations that don’t affect functionality.
-
-Problem Description:
-${message.problemDescription}
-
-Code:
-${message.problemCode}
-
+                const prompt = `Analyze this code solution for the LeetCode problem:
+Problem: ${message.problemDescription}
+Code: ${message.problemCode}
 Instructions:
-Carefully analyze the code line by line, focusing on syntax errors, runtime errors, and logical flaws that will cause the code to fail or produce incorrect results.
 
-Identify the exact line(s) where the error occurs.
+First, determine if this solution would pass LeetCode tests as written
+If it would pass, respond EXACTLY with: "SOLUTION PASSES - No critical errors"
+If it would fail, identify ONLY the exact line causing failure
 
-Explain the nature of the error and why it will break the code.
+For failing solutions only:
+CopyFAILING LINE: [exact line of code causing the issue]
+REASON: [brief explanation of why it fails]
+FIX: [minimal code change to fix]
+Do not comment on:
 
-If applicable, provide a minimal fix to resolve the error.
-
-Provide your response in the following format:
-
-Error Line: [Line number or code snippet]
-
-Error Type: [Type of error, e.g., Syntax Error, Runtime Error, Logical Error]
-
-Explanation: [Brief explanation of why the error will break the code]
-
-Fix (if applicable): [Minimal fix to resolve the error]
-
-Example Input:
-cpp
-Copy
-class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        vector <int> values;
-        for (int i = 0; i < nums.size(); i++) {
-            for (int j = i + 1; j < nums.size(); j++) {
-                if (nums[i] + nums[j] == target)
-                    values.push_back(i);
-                    values.push_back(j);
-                    return values;
-            }
-        }
-    }
-};
-Example Output:
-Error Line: if (nums[i] + nums[j] == target)
-
-Error Type: Logical Error
-
-Explanation: The if statement is missing curly braces {} to group the statements that should execute when the condition is true. As a result, only values.push_back(i); is part of the if block, and the remaining lines execute unconditionally, leading to incorrect behavior.
-
-Fix (if applicable):
-
-cpp
-Copy
-if (nums[i] + nums[j] == target) {
-    return {i, j}; // Directly return the indices
-}
-Error Line: The function does not return a value in all control paths.
-
-Error Type: Logical Error
-
-Explanation: If no pair is found, the function does not return a value, which will result in undefined behavior or a compilation error in some languages.
-
-Fix (if applicable): Add a return statement at the end of the function:
-
-cpp
-Copy
-return {}; `;
+Unused variables
+Style issues
+Optimizations
+Any issue that doesn't prevent the code from passing tests`;
                 const response = await callGeminiAPI({ prompt });
 
                 port.postMessage({
                     status: "success",
-                    GeminiAnswer: response
+                    GeminiAnswer: response,
+                    action: message.action
                 });
 
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
-                    GeminiAnswer: response
+                    GeminiAnswer: response,
+                    action: message.action
                 });
             } catch (error) {
                 console.error("API call failed:", error);
@@ -154,11 +148,19 @@ return {}; `;
         else if (message.action === "callGeminiAPIComplexity") {
             try {
                 const prompt = `You are an expert programmer with a deep understanding of algorithms and computational complexity. Your task is to analyze a LeetCode-style coding problem and its corresponding solution. Carefully evaluate the code, considering built-in functions, language-specific optimizations, and problem constraints, and determine its time complexity and space complexity.
-Problem Description:
+
+Pay special attention to:
+- **Dynamic data structures** (e.g., vectors, hash maps, linked lists): If a vector (or equivalent resizable array) is created and stores n elements, the space complexity is **at least O(n)**.
+- **Recursive function calls** and the additional space required for the call stack.
+- **In-place modifications** versus auxiliary space usage.
+- **Hidden complexities** in built-in functions or language-specific optimizations.
+
+**Problem Description:**
 ${message.problemDescription}
 
-Code:
+**Code:**
 ${message.problemCode}
+
 Provide your assessment in a single line using the following format:
 Time Complexity: O(?), Space Complexity: O(?)
 
@@ -167,13 +169,15 @@ Time Complexity: O(?), Space Complexity: O(?)
 
                 port.postMessage({
                     status: "success",
-                    GeminiAnswer: response
+                    GeminiAnswer: response,
+                    action: message.action
                 });
 
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
-                    GeminiAnswer: response
+                    GeminiAnswer: response,
+                    action: message.action
                 });
             } catch (error) {
                 console.error("API call failed:", error);
@@ -193,10 +197,8 @@ Time Complexity: O(?), Space Complexity: O(?)
 });
 
 async function callGeminiAPI(data) {
-
     // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
     const GEMINI_API_KEY = ""; // KEY HERE
-
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -220,7 +222,8 @@ async function callGeminiAPI(data) {
 
         const result = await response.json();
         return result.candidates[0].content.parts[0].text;
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("API call error:", error);
         throw error;
     }
