@@ -12,7 +12,7 @@ CIS4914 - Senior Project
    a) CREATE USER 'user1'@'localhost' IDENTIFIED BY 'password1';
 5. Grant privileges to all databases and tables to the new created user<br/>
    a) GRANT ALL PRIVILEGES ON \*.\* TO 'user1'@'localhost';
-6. Refresh privilage tale to make changes applied to the database<br/>
+6. Refresh privilage table to make changes applied to the database<br/>
    a) FLUSH PRIVILEGES;
 7. Exit the DBMS and login as new user<br/>
    a) exit;<br/>
@@ -59,7 +59,7 @@ CIS4914 - Senior Project
 
 ## Steps to setup Database (Windows)
 1. Install MariaDB from the official website: https://mariadb.org/. Follow directions<br/>
-   a) Note: If you change where MariaDB will download, remember it.<br/>
+   a) If you change where MariaDB will download, remember it.<br/>
    b) If you do set the optional password, remember it.<br/>
    c) Enable UTF-8 as the default character set<br/>
    d) Also, remember the port number set<br/>
