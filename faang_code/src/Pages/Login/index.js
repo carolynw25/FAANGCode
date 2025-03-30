@@ -40,6 +40,9 @@ function Login() {
 
             if (response.ok) {
                 console.log("Successful Login!");
+
+                // Store username in local storage
+                localStorage.setItem("loggedUsername", data.user.username);
                 navigate('/dashboard');  // If successful = Redirect
             } else {
                 setError(data.message || 'Login failed');

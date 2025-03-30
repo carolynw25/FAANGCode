@@ -18,6 +18,9 @@ function Dashboard() {
         // Hints Used vs. Problems Solved Over Time (Track efficiency)
         //recent activity: display most recent coding attempt
         //badges
+    //[variable, function to set it]
+    const [userStats, setUserStats] = useState(null);
+    const [username, setUsername] = useState('');
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [{
@@ -29,7 +32,27 @@ function Dashboard() {
     });
 
     useEffect(() => {
+        //get username from localStorage
+        const storedUsername = localStorage.getItem("loggedUsername");
         // Fetch data from your API here!!
+        if (storedUsername) {
+            setUsername(storedUsername);
+
+            fetch(`http://localhost:8081/get-user-info?username=${storedUsername}`)
+                .then(response => response.json())
+                .then(data => {
+                    setUserStats(data);
+                    setChartData({
+                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                        datasets: [{
+                            ...chartData.datasets[0],
+                            data: [data.totalNumHintsEasy, data.totalNumHintsMedium, data.totalNumHintsHard], 
+
+                        }]
+                    });
+                })
+                .catch(error => console.error('Error fetching user data:', error));
+        }
         // For now, we'll use mock data...
         const mockData = {
             labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
@@ -67,7 +90,7 @@ function Dashboard() {
     return (
         <div>
             <div className="title">Welcome, FAANGCoder!</div>
-            <h1>Dashboard</h1>
+            <h1>{username ? `${username}'s Dashboard` : 'Dashboard'}</h1>
             {/* track progress over time*/}
             <div className="chart-container">
                 <Line data={chartData} options={{responsive: true, maintainAspectRatio: false}}/>
@@ -78,11 +101,11 @@ function Dashboard() {
                 <Bar data={barChartData} options={barChartOptions}/>
             </div>
 
-            {/* grab from DB later...*/}
+            {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
-                <div className="stat-item"><h3>Total Problems Solved✅</h3><p>20</p></div>
-                <div className="stat-item"><h3>Difficulty Breakdown📊</h3><p>Easy: 15 | Medium: 3 | Hard: 2</p></div>
-                <div className="stat-item"><h3>AI Hints Used🧠</h3> <p>47</p></div>
+                <div className="stat-item"><h3>Total Problems Solved✅</h3><p>{userStats ? userStats.totalProblemsSolved : 0}</p></div>
+                <div className="stat-item"><h3>Difficulty Breakdown📊</h3><p>Easy: {userStats ? userStats.numEasy : 0} | Medium: {userStats ? userStats.numMedium : 0} | Hard: {userStats ? userStats.numHard : 0}</p></div>
+                <div className="stat-item"><h3>AI Hints Used🧠</h3> <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p></div>
             </div>
         </div>
     );

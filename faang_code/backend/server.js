@@ -27,6 +27,7 @@ pool.getConnection()
   });
 
 // POST request that uses pool
+//Note: the '?' is a placeholder. It is used to prevent SQL injections
 app.post('/create-account', async (req, res) => {
   const sql = "INSERT INTO user_signup (firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?)";
 
@@ -133,6 +134,37 @@ app.post('/save-extension-data', async (req, res) => {
     if (conn) conn.release();
   }
 });
+
+//getting the data to display on dashboard
+//using React's useState and useEffect to fetch data and update the dashboard
+app.get('/get-user-info', async (req, res) => {
+  const { username } = req.query; // Get username from query parameters
+
+  if (!username) { //checks to ensure it is not null or invalid. Would throw error
+    return res.status(400).json({ error: "Username required" });
+  }
+
+  const sql = "SELECT firstName, lastName, username, totalProblemsSolved, numEasy, numMedium, numHard, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE username = ?";
+  
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const result = await conn.query(sql, [username]);
+    conn.release();
+
+    if (result.length > 0) {
+      res.json(result[0]);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 
 
 // Start server
