@@ -56,6 +56,19 @@ CIS4914 - Senior Project
 4. Start database server<br/>
    a) sudo systemctl start mariadb
 5. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
+
+## Steps to setup Database (Windows)
+1. Install MariaDB from the official website: https://mariadb.org/. Follow directions<br/>
+   a) Note: If you change where MariaDB will download, remember it.<br/>
+   b) If you do set the optional password, remember it.<br/>
+   c) Enable UTF-8 as the default character set<br/>
+   d) Also, remember the port number set<br/>
+3. Once downloaded, open Command Prompt and login as root<br>
+   a) cd "\Program Files\MairaDB 11.5"<br/>
+      Note: If you changed the path when MariaDB was downloaded: "PATH\MariaDB 11.5"<br/>
+   b) cd bin<br/>
+   c) mysql -u root -p<br/>
+4. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
    
 ## Steps to run FAANGCode
 1. In terminal clone the repository:<br/>
