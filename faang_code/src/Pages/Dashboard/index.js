@@ -21,6 +21,7 @@ function Dashboard() {
     //[variable, function to set it]
     const [userStats, setUserStats] = useState(null);
     const [username, setUsername] = useState('');
+    const [userId, setUserId] = useState('');
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [{
@@ -32,13 +33,15 @@ function Dashboard() {
     });
 
     useEffect(() => {
-        //get username from localStorage
+        //get username & id from localStorage
         const storedUsername = localStorage.getItem("loggedUsername");
+        const storedUserId = localStorage.getItem("loggedUserId");
         // Fetch data from your API here!!
         if (storedUsername) {
             setUsername(storedUsername);
+            setUserId(storedUserId);
 
-            fetch(`http://localhost:8081/get-user-info?username=${storedUsername}`)
+            fetch(`http://localhost:8081/get-user-info?id=${storedUserId}`)
                 .then(response => response.json())
                 .then(data => {
                     setUserStats(data);
@@ -54,18 +57,18 @@ function Dashboard() {
                 .catch(error => console.error('Error fetching user data:', error));
         }
         // For now, we'll use mock data...
-        const mockData = {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-            data: [7, 5, 6, 4, 2]
-        };
+        // const mockData = {
+        //     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+        //     data: [7, 5, 6, 4, 2]
+        // };
 
-        setChartData({
-            labels: mockData.labels,
-            datasets: [{
-                ...chartData.datasets[0],
-                data: mockData.data
-            }]
-        });
+        // setChartData({
+        //     labels: mockData.labels,
+        //     datasets: [{
+        //         ...chartData.datasets[0],
+        //         data: mockData.data
+        //     }]
+        // });
     }, []);
 
     // Hardcoded Data for Problems Solved Over Time

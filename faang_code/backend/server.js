@@ -66,7 +66,7 @@ app.post('/login', async (req, res) => {
   // const username = req.body.username;
   // const password = req.body.password;
 
-  const sql = "SELECT username, password FROM user_signup WHERE username = ?";
+  const sql = "SELECT id, username, password FROM user_signup WHERE username = ?";
   let conn;
   try {
     conn = await pool.getConnection();
@@ -79,7 +79,7 @@ app.post('/login', async (req, res) => {
       //password match check
       //without bcrypt: "result[0].password === req.body.password", now use bcrypt.compare
       if (await bcrypt.compare(req.body.password, result[0].password)) {
-        res.json({ message: "Login successful!", user: { username: result[0].username } });
+        res.json({ message: "Login successful!", user: { id: result[0].id, username: result[0].username } });
       } else {
         res.status(401).json({error: "Invalid password"});
       }
@@ -138,18 +138,18 @@ app.post('/save-extension-data', async (req, res) => {
 //getting the data to display on dashboard
 //using React's useState and useEffect to fetch data and update the dashboard
 app.get('/get-user-info', async (req, res) => {
-  const { username } = req.query; // Get username from query parameters
+  const { id } = req.query; // Get id from query parameters
 
-  if (!username) { //checks to ensure it is not null or invalid. Would throw error
-    return res.status(400).json({ error: "Username required" });
+  if (!id) { //checks to ensure it is not null or invalid. Would throw error
+    return res.status(400).json({ error: "User ID required" });
   }
 
-  const sql = "SELECT firstName, lastName, username, totalProblemsSolved, numEasy, numMedium, numHard, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE username = ?";
+  const sql = "SELECT firstName, lastName, username, totalProblemsSolved, numEasy, numMedium, numHard, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE user_signup.id = ?";
   
   let conn;
   try {
     conn = await pool.getConnection();
-    const result = await conn.query(sql, [username]);
+    const result = await conn.query(sql, [id]);
     conn.release();
 
     if (result.length > 0) {
