@@ -141,3 +141,28 @@ app.post('/save-extension-data', async (req, res) => {
 app.listen(8081, ()=> {
   console.log("listening")
 })
+
+//endpoint for profile page to get user info
+app.get('/get-user', async (req, res) => {
+  const { username } = req.query;
+  const sql = "SELECT firstName, lastName, username, email FROM user_signup WHERE username = ?";
+
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const result = await conn.query(sql, [username]);
+    conn.release();
+
+    if (result.length > 0) {
+      res.json(result[0]);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+

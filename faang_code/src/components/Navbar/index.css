@@ -17,7 +17,7 @@
 
 .navbar a {
     text-decoration: none;  /* Get rid of underline */
-    font-size: px;  
+
     color: white; 
     padding: 20px;
     display: block;
@@ -31,4 +31,21 @@ img {
     width: 150px;
     height: auto;
   }
+
+
+
+.logout-button {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 20px;
+}
+
+.logout-button:hover {
+    background-color: #2a8dc8;
+}
+
   
