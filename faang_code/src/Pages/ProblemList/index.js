@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.css';
-import Problems from "../../components/Problems";
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 //ask alan if AI can grab link to leetcode question
 //also store leetcode coding question title
@@ -14,6 +15,15 @@ import Problems from "../../components/Problems";
 //  curr UI-> no need to navigate to another page
 
 function ProblemList() {
+    //if user not logged in, redirect
+    const navigate = useNavigate();
+    const username = localStorage.getItem('username');
+    useEffect(() => {
+        if (!username) {
+            navigate('/login');  // Redirect if user not logged in
+        }
+    }, [username, navigate]);
+
     //these are hard coded now just to brainstorm UI
     //grab variables from back-end DB when we have data stored
     const problems = [

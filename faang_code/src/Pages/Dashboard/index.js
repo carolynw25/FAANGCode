@@ -3,6 +3,7 @@
 import './index.css';
 import React, { useState, useEffect } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
+import { useNavigate } from 'react-router-dom';
 import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -18,6 +19,16 @@ function Dashboard() {
         // Hints Used vs. Problems Solved Over Time (Track efficiency)
         //recent activity: display most recent coding attempt
         //badges
+
+    //if user not logged in, redirect
+    const navigate = useNavigate();
+    const username = localStorage.getItem('username');
+    useEffect(() => {
+        if (!username) {
+            navigate('/login');  // Redirect if user not logged in
+        }
+    }, [username, navigate]);
+
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [{
