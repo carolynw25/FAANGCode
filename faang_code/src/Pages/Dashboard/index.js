@@ -77,7 +77,7 @@ function Dashboard() {
 
     return (
         <div>
-            <div className="title">Welcome, FAANGCoder!</div>
+            <div className="title">Welcome, {username}!</div>
             <h1>Dashboard</h1>
             {/* track progress over time*/}
             <div className="chart-container">
