@@ -13,7 +13,8 @@ const pool = mariadb.createPool({
   user: 'user1',
   password: 'password1',
   database: 'faangUsers',
-  connectionLimit: 50
+  connectionLimit: 50,
+  bigNumberStrings: true
 });
 
 // Connection check
@@ -49,9 +50,12 @@ app.post('/create-account', async (req, res) => {
     //mariaDB returns BigInt value, JS strinify cannot handle BigInt
     // Convert BigInt fields (like insertId) manually
     // chatgpt solution to bigint issue
-    if (typeof result.insertId === "bigint") {
-      result.insertId = result.insertId.toString();
-    }
+
+    //This isn't needed anymore as the bigNumber configuration in the pool connection 
+    //will automatically do this
+    // if (typeof result.insertId === "bigint") {
+    //   result.insertId = result.insertId.toString();
+    // }
 
     res.json({ message: "Account created successfully!", result });
   } catch (err) {
@@ -66,7 +70,7 @@ app.post('/login', async (req, res) => {
   // const username = req.body.username;
   // const password = req.body.password;
 
-  const sql = "SELECT username, password FROM user_signup WHERE username = ?";
+  const sql = "SELECT id, username, password FROM user_signup WHERE username = ?";
   let conn;
   try {
     conn = await pool.getConnection();
@@ -74,12 +78,12 @@ app.post('/login', async (req, res) => {
     //query just username to filter bc will hash password later
     const result = await conn.query(sql, [req.body.username]);
     conn.release();
-
+    
     if (result.length > 0) {
       //password match check
       //without bcrypt: "result[0].password === req.body.password", now use bcrypt.compare
       if (await bcrypt.compare(req.body.password, result[0].password)) {
-        res.json({ message: "Login successful!", user: { username: result[0].username } });
+        res.json({ message: "Login successful!", user: { username: result[0].username }, id: result[0].id });
       } else {
         res.status(401).json({error: "Invalid password"});
       }
@@ -124,8 +128,12 @@ app.post('/save-extension-data', async (req, res) => {
 
     conn = await pool.getConnection();
     const result = await conn.query(sql, values);
+    console.log("Database result:", result); 
     conn.release();
-
+    
+    if (typeof result.insertId === "bigint") {
+      result.insertId = result.insertId.toString();
+    }
     res.json({ message: "User data is updated successfully!", result });
   } catch (err) {
     console.error("Database error:", err);
