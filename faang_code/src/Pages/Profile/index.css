@@ -1,83 +1,72 @@
+/* General styling */
 body {
+    font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
-h1 {
-    margin-left: 230px;
-}
-form {
-    background-color: rgb(209, 232, 250);
+
+/* Profile container */
+.profile-container {
+    background: #74c1ff;  /* Change the color to #4caaf2 */
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin-left: 230px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
 
+/* Profile heading */
+.profile-container h1 {
+    font-family:  "Press Start 2P", serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgb(42, 144, 225);
+    padding-bottom: 10px;
+    text-align: right;
 }
-.form-field {
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-label {
+
+/* Profile fields */
+.profile-field {
+    margin: 15px 0;
     font-size: 18px;
-    color: #333;
-    margin-bottom: 6px;
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(42, 144, 225);
+    padding-bottom: 5px;
 }
 
-input[type="text"], input[type="email"], input[type="password"], input[type="username"] {
-    width: 100%;
-    padding: 14px;
+/* Labels */
+.profile-field label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-family:  "Press Start 2P", serif;
+}
+
+/* Values */
+.profile-field span {
     font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    margin-top: 8px;
-    transition: border-color 0.3s ease;
-    margin-top: 4px;
+    font-weight: normal;
 }
 
-.auth-buttons {
+/* Logout Button */
+.logout-btn {
     margin-top: 20px;
-}
-
-.auth-buttons button {
-    margin: 10px;
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: 10px 15px;
+    background: #ff4b5c;
     border: none;
+    color: #fff;
+    font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-.signup-btn {
-    background-color: #28a745;
-    color: white;
-    font-weight: bold;
-}
-
-.signup-btn:hover {
-    background-color: #218838;
-}
-
-.auth-buttons p {
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-}
-
-.auth-buttons a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.auth-buttons a:hover {
-    text-decoration: underline;
+.logout-btn:hover {
+    background: #e84150;
 }
