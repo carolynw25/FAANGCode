@@ -37,7 +37,7 @@ function Profile() {
     };
 
     if (!user) {
-        return <div>Loading...</div>; // Placeholder for loading state
+        return <div>Error Loading User Date</div>;
     }
 
     return (
