@@ -31,8 +31,12 @@ body {
 
 .logo {
     height: 10%;
-    width: 33%;
+    width: 30%;
     margin-left: 7px;
+}
+
+.name {
+    width: 100%;
 }
 
 .buttonContainer {
@@ -54,8 +58,6 @@ body {
     top: 15px;
     font-weight: bold;
 }
-
-
 
 #debugButton {
     background-color: #FF6347; /* Red for Debug button */
@@ -137,4 +139,67 @@ body {
     padding: 5px;
     border-radius: 3px;
     margin-bottom: 0px;
+}
+
+.hidden {
+    display: none;
+}
+
+.login-form input {
+    width: 94%;
+    padding: 7px; 
+    margin: 10px 0; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 7px;
+    
+}
+.login-form button {
+    width: 94%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 7px;
+}
+.login-form button:hover {
+    background-color: #45a049;
+}
+
+.userIcon {
+    cursor: pointer;
+    height: 10%;
+    width: 28%;
+    padding-right: 7px;
+    margin-top: 3px;
+}
+
+.userIcon img {
+    max-width: 100%;
+    height: auto;
+    border-radius:50%
+}
+
+#loginText {
+    margin: 0;
+    font-size: 20px;
+    text-align: center;
+}
+
+.back-button {
+    position: absolute;
+    left: 7px;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-weight: bold;
 }
