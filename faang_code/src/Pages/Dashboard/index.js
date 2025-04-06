@@ -3,8 +3,10 @@
 import './index.css';
 import React, { useState, useEffect } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
+import {useNavigate} from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+
 
 
 function Dashboard() {
@@ -31,11 +33,18 @@ function Dashboard() {
             tension: 0.1
         }]
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         //get username & id from localStorage
         const storedUsername = localStorage.getItem("loggedUsername");
         const storedUserId = localStorage.getItem("loggedUserId");
+
+        //if user not logged in, redirect
+        if (!storedUsername) {
+            navigate('/login');
+        }
+
         // Fetch data from your API here!!
         if (storedUsername) {
             setUsername(storedUsername);
@@ -69,7 +78,7 @@ function Dashboard() {
         //         data: mockData.data
         //     }]
         // });
-    }, []);
+    }, [navigate]);
 
     // Hardcoded Data for Problems Solved Over Time
     const barChartData = {

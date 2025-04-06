@@ -7,7 +7,7 @@ function Navbar() {
 
     const handleLogout = () => {
         //clear any stored data - right now, just username is stored upon login
-        localStorage.removeItem('username');
+        localStorage.removeItem('loggedUsername');
         //redirect to login page
         navigate('/login');
     };
