@@ -14,7 +14,7 @@ const pool = mariadb.createPool({
   password: 'password1',
   database: 'faangUsers',
   connectionLimit: 50,
-  bigNumberStrings: true
+  //bigNumberStrings: true
 });
 
 // Connection check
@@ -53,9 +53,9 @@ app.post('/create-account', async (req, res) => {
 
     //This isn't needed anymore as the bigNumber configuration in the pool connection 
     //will automatically do this
-    // if (typeof result.insertId === "bigint") {
-    //   result.insertId = result.insertId.toString();
-    // }
+    if (typeof result.insertId === "bigint") {
+      result.insertId = result.insertId.toString();
+    }
 
     res.json({ message: "Account created successfully!", result });
   } catch (err) {
@@ -70,7 +70,7 @@ app.post('/login', async (req, res) => {
   // const username = req.body.username;
   // const password = req.body.password;
 
-  const sql = "SELECT id, id, username, password FROM user_signup WHERE username = ?";
+  const sql = "SELECT id, username, password FROM user_signup WHERE username = ?";
   let conn;
   try {
     conn = await pool.getConnection();
