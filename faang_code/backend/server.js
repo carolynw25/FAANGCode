@@ -2,7 +2,7 @@
 const express = require('express');
 const mariadb = require('mariadb');
 const cors = require('cors'); //cross-origin requests enabled
-const bcrypt = require('bcrypt'); // password hashing
+const bcrypt = require('bcryptjs'); // password hashing
 
 const app = express();
 app.use(cors()); //allows frontend to call the backend
