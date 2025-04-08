@@ -78,7 +78,8 @@ CIS4914 - Senior Project
    Note: if babel-error run: del package-lock.json, rm node_modules (Press Y), npm install
 4. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
    a) Run "npm start"<br/>
-   Note: if an error with nodemon occurs run: npm install nodemon --save-dev<br/>
+   Note: if an error with nodemon occurs run the following in "faang_code" directory: npm install<br/>
+   Note: if an error with nodemon occurs still run: npm install nodemon --save-dev<br/>
    Note: if an error with babel occurs run: npm ls babel-loader <br/>
 
 ## Steps to setup Chrome Extension
