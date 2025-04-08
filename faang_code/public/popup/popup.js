@@ -1,6 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     const messageContainer = document.getElementById('messageContainer');
     const messageQueue = []; // Array to store the most recent 5 messages
+   
+    //Change popup to login popup upon clicking on user icon
+    document.getElementById("user").addEventListener("click", () => {
+        document.getElementById("default-container").classList.add("hidden");
+        document.getElementById("login-form-container").classList.remove("hidden");
+    });
+    
+    //Change login popup back to main popup
+    document.getElementById("back").addEventListener("click", () => {
+        document.getElementById("login-form-container").classList.add("hidden");
+        document.getElementById("default-container").classList.remove("hidden");
+    });
+    
+    // Add event listener for login
+    document.getElementById("login-form").addEventListener('submit', (event) => {
+        event.preventDefault();
+        const port = chrome.runtime.connect({ name: "popup" });
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        
+        // Send the login data through the port
+        port.postMessage({ 
+            action: "loginButtonClicked", 
+            username: username, 
+            password: password
+        });
+
+        // Listen for response from background
+        port.onMessage.addListener((response) => {
+            console.log("Response from background:", response);
+        });
+    })
 
     // Add an event listener to the "Hint" button
     document.getElementById("hintButton").addEventListener('click', () => {
@@ -22,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chrome.tabs.sendMessage(tabs[0].id, { action: "complexityButtonClicked" });
         });
     });
-
+    
     chrome.runtime.onMessage.addListener((response) => {
         const message = document.createElement('p');
 

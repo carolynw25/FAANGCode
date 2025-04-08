@@ -2,7 +2,7 @@
 const express = require('express');
 const mariadb = require('mariadb');
 const cors = require('cors'); //cross-origin requests enabled
-const bcrypt = require('bcrypt'); // password hashing
+const bcrypt = require('bcryptjs'); // password hashing
 
 const app = express();
 app.use(cors()); //allows frontend to call the backend
@@ -13,7 +13,8 @@ const pool = mariadb.createPool({
   user: 'user1',
   password: 'password1',
   database: 'faangUsers',
-  connectionLimit: 50
+  connectionLimit: 50,
+  //bigNumberStrings: true
 });
 
 // Connection check
@@ -27,6 +28,7 @@ pool.getConnection()
   });
 
 // POST request that uses pool
+//Note: the '?' is a placeholder. It is used to prevent SQL injections
 app.post('/create-account', async (req, res) => {
   const sql = "INSERT INTO user_signup (firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?)";
 
@@ -48,6 +50,9 @@ app.post('/create-account', async (req, res) => {
     //mariaDB returns BigInt value, JS strinify cannot handle BigInt
     // Convert BigInt fields (like insertId) manually
     // chatgpt solution to bigint issue
+
+    //This isn't needed anymore as the bigNumber configuration in the pool connection 
+    //will automatically do this
     if (typeof result.insertId === "bigint") {
       result.insertId = result.insertId.toString();
     }
@@ -65,7 +70,7 @@ app.post('/login', async (req, res) => {
   // const username = req.body.username;
   // const password = req.body.password;
 
-  const sql = "SELECT username, password FROM user_signup WHERE username = ?";
+  const sql = "SELECT id, username, password FROM user_signup WHERE username = ?";
   let conn;
   try {
     conn = await pool.getConnection();
@@ -73,7 +78,7 @@ app.post('/login', async (req, res) => {
     //query just username to filter bc will hash password later
     const result = await conn.query(sql, [req.body.username]);
     conn.release();
-
+    
     if (result.length > 0) {
       //password match check
       //without bcrypt: "result[0].password === req.body.password", now use bcrypt.compare
@@ -123,8 +128,12 @@ app.post('/save-extension-data', async (req, res) => {
 
     conn = await pool.getConnection();
     const result = await conn.query(sql, values);
+    console.log("Database result:", result); 
     conn.release();
-
+    
+    if (typeof result.insertId === "bigint") {
+      result.insertId = result.insertId.toString();
+    }
     res.json({ message: "User data is updated successfully!", result });
   } catch (err) {
     console.error("Database error:", err);
@@ -133,6 +142,37 @@ app.post('/save-extension-data', async (req, res) => {
     if (conn) conn.release();
   }
 });
+
+//getting the data to display on dashboard
+//using React's useState and useEffect to fetch data and update the dashboard
+app.get('/get-user-info', async (req, res) => {
+  const { id } = req.query; // Get id from query parameters
+
+  if (!id) { //checks to ensure it is not null or invalid. Would throw error
+    return res.status(400).json({ error: "User ID required" });
+  }
+
+  const sql = "SELECT firstName, lastName, username, totalProblemsSolved, numEasy, numMedium, numHard, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE user_signup.id = ?";
+  
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const result = await conn.query(sql, [id]);
+    conn.release();
+
+    if (result.length > 0) {
+      res.json(result[0]);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 
 
 // Start server

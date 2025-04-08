@@ -5,17 +5,17 @@ import { useNavigate } from 'react-router-dom';
 function Profile() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const username = localStorage.getItem('username'); // Retrieve username
+    const storedUsername = localStorage.getItem("loggedUsername");
 
     useEffect(() => {
-        if (!username) {
+        if (!storedUsername) {
             navigate('/login'); // Redirect if no username found
             return;
         }
 
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/get-user?username=${username}`);
+                const response = await fetch(`http://localhost:8081/get-user?username=${storedUsername}`);
                 const data = await response.json();
 
                 if (response.ok) {
@@ -29,10 +29,10 @@ function Profile() {
         };
 
         fetchUserData();
-    }, [username, navigate]);
+    }, [storedUsername, navigate]);
 
     const handleLogout = () => {
-        localStorage.removeItem('username');  // Clear stored username
+        localStorage.removeItem('loggedUsername');  // Clear stored username
         navigate('/login');
     };
 

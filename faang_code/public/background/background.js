@@ -21,7 +21,27 @@ chrome.runtime.onConnect.addListener((port) => {
                     message: error.toString()
                 });
             }
-        } else if (message.action === "callGeminiAPIHint") {
+        } 
+        else if (message.action === "loginButtonClicked") {
+            try {
+                console.log("attempting login")
+                console.log(message.username, message.password)
+                loginUser(message.username, message.password);
+            }
+            catch (error) { 
+                console.error("API call failed:", error);
+                port.postMessage({
+                    status: "error",
+                    message: error.toString()
+                });
+
+                chrome.runtime.sendMessage({
+                    status: "error",
+                    message: error.toString()
+                });
+            }
+        }
+        else if (message.action === "callGeminiAPIHint") {
             try {
                 const prompt = `Looking at the problem description and the given code, provide a hint to fix any debugging issues.
                 The hint should be a short and simple hint without being too long.
@@ -36,46 +56,9 @@ chrome.runtime.onConnect.addListener((port) => {
                     action: message.action
                 });
 
-                //update DB with user stats
-                const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
-                difficultyValues[message.problemTag] = 1;
-                
-                //temp values
-                let id = "123"; 
-                let totalProblemsSolved = 0;
-                let numEasy = 1;
-                let numMedium = 0;
-                let numHard = 0;
-                
-                const updateData = {
-                    id,
-                    totalNumHintsEasy: difficultyValues.Easy,
-                    totalNumHintsMedium: difficultyValues.Medium,  
-                    totalNumHintsHard: difficultyValues.Hard, 
-                    totalProblemsSolved,
-                    numEasy, 
-                    numMedium, 
-                    numHard
-                };
-                const updateDBResponse = await fetch('http://localhost:8081/save-extension-data', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(updateData)
-                });
-        
-                const dbData = await updateDBResponse.json();
-                console.log("Response:", updateDBResponse);
+                const dbData = await updateDB(message.problemTag);
                 console.log("Data:", dbData);
         
-                if (updateDBResponse.ok) {
-                    console.log("Successful user data update");
-                } 
-                else {
-                    console.log('User data failed to update');
-                }
-
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
@@ -198,7 +181,7 @@ Time Complexity: O(?), Space Complexity: O(?)
 
 async function callGeminiAPI(data) {
     // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
-    const GEMINI_API_KEY = ""; // KEY HERE
+    const GEMINI_API_KEY = "AIzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN8"; // KEY HERE
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -226,6 +209,64 @@ async function callGeminiAPI(data) {
     catch (error) {
         console.error("API call error:", error);
         throw error;
+    }
+}
+
+async function updateDB(problemTag) {
+    // Update DB with user stats
+    const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
+    difficultyValues[problemTag] = 1;
+    //temp values
+    let totalProblemsSolved = 0;
+    let numEasy = 0;
+    let numMedium = 0;
+    let numHard = 0;
+   
+    const getUserId = () => {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get("userId", (data) => {
+                if (data.userId) {
+                    resolve(data.userId);
+                } else {
+                    reject("User is not logged in.");
+                }
+            });
+        });
+    };
+
+    try {
+        // Wait for userId before proceeding
+        let id = await getUserId(); 
+        const updateData = {
+            id,
+            totalNumHintsEasy: difficultyValues.Easy,
+            totalNumHintsMedium: difficultyValues.Medium,  
+            totalNumHintsHard: difficultyValues.Hard, 
+            totalProblemsSolved,
+            numEasy, 
+            numMedium, 
+            numHard
+        };
+
+        // Send data to backend
+        const updateDBResponse = await fetch('http://localhost:8081/save-extension-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        if (updateDBResponse.ok) {
+            console.log("Successful user data update");
+        } 
+        else {
+            console.log("User data failed to update");
+            throw new Error("Database update failed");
+        }
+    } 
+    catch (error) {
+        console.log(error);
     }
 }
 
@@ -259,5 +300,38 @@ async function callGPTAPI(data) {
     } catch (error) {
         console.error("API call error:", error);
         throw error;
+    }
+}
+
+async function loginUser(username, password) {
+    try {
+        //Validate login from db and get id
+        const loginData = {
+            username,
+            password
+        }
+        console.log(loginData);
+        const response = await fetch('http://localhost:8081/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        });
+
+        const data = await response.json();
+        console.log("Response:", response); 
+        console.log("Data:", data); 
+
+        if (response.ok) {
+            // Store user ID in chrome local storage
+            chrome.storage.local.set({userId: data.id}, () => {
+                console.log("User logged in:", data.id);
+            });
+        } else {
+            console.error("Login failed:", data.message);
+        }
+    } catch (error) {
+        console.error("Error logging in:", error);
     }
 }

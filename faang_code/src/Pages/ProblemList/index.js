@@ -16,13 +16,14 @@ import { useState, useEffect } from 'react';
 
 function ProblemList() {
     //if user not logged in, redirect
+    const storedUsername = localStorage.getItem("loggedUsername");
     const navigate = useNavigate();
-    const username = localStorage.getItem('username');
+
     useEffect(() => {
-        if (!username) {
+        if (!storedUsername) {
             navigate('/login');  // Redirect if user not logged in
         }
-    }, [username, navigate]);
+    }, [storedUsername, navigate]);
 
     //these are hard coded now just to brainstorm UI
     //grab variables from back-end DB when we have data stored
