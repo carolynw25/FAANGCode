@@ -84,8 +84,11 @@ CIS4914 - Senior Project
 
 ## Steps to setup Chrome Extension
 1. Go to Gemini API Developer Kit and request a key <br/>
-   a) Add the key into the background.js GeminiAPI function <br/>
+   a) Add the key into the faang_code/public/background/background.js GeminiAPI function <br/>
 2. Cd into the faang_code project folder and run 'npm run build' in terminal <br/>
 3. Go to chrome://extensions/ on Google Chrome <br/>
 4. Press load unpacked and go to the folder FAANGCode\faang_code\public <br/>
+   Note: may have to toggle "Developer mode" on, in top right corner to see this option.<br/>
+5. Now if you go to leetcode.com and open a leetcode problem, you can now open the extension and have it analyze your code. <br/>
+   Happy coding!
    
