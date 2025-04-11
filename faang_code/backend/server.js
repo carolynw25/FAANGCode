@@ -83,7 +83,7 @@ app.post('/login', async (req, res) => {
       //password match check
       //without bcrypt: "result[0].password === req.body.password", now use bcrypt.compare
       if (await bcrypt.compare(req.body.password, result[0].password)) {
-        res.json({ message: "Login successful!", user: { username: result[0].username } });
+        res.json({ message: "Login successful!", user: { username: result[0].username }, id: result[0].id });
       } else {
         res.status(401).json({error: "Invalid password"});
       }

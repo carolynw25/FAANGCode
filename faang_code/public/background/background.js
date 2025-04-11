@@ -2,7 +2,7 @@ chrome.runtime.onConnect.addListener((port) => {
     console.log("Connected to:", port.name);
 
     port.onMessage.addListener(async (message) => {
-        console.log("Message received in background script:", message);
+        //console.log("Message received in background script:", message);
 
         if (message.action === "sendProblemData") {
             try {
@@ -24,9 +24,10 @@ chrome.runtime.onConnect.addListener((port) => {
         } 
         else if (message.action === "loginButtonClicked") {
             try {
-                console.log("attempting login")
-                console.log(message.username, message.password)
-                loginUser(message.username, message.password);
+                console.log("attempting login");
+                const result = await loginUser(message.username, message.password);
+                console.log("Sending result to popup:", result);
+                port.postMessage(result)
             }
             catch (error) { 
                 console.error("API call failed:", error);
@@ -237,6 +238,7 @@ async function updateDB(problemTag) {
     try {
         // Wait for userId before proceeding
         let id = await getUserId(); 
+        console.log(id);
         const updateData = {
             id,
             totalNumHintsEasy: difficultyValues.Easy,
@@ -310,7 +312,7 @@ async function loginUser(username, password) {
             username,
             password
         }
-        console.log(loginData);
+
         const response = await fetch('http://localhost:8081/login', {
             method: 'POST',
             headers: {
@@ -320,18 +322,21 @@ async function loginUser(username, password) {
         });
 
         const data = await response.json();
-        console.log("Response:", response); 
-        console.log("Data:", data); 
+        console.log("Response:", response);
+        console.log("Data:", data);
 
         if (response.ok) {
             // Store user ID in chrome local storage
             chrome.storage.local.set({userId: data.id}, () => {
-                console.log("User logged in:", data.id);
+                console.log("User logged in:", data);
             });
+            return {success: true};
         } else {
             console.error("Login failed:", data.message);
+            return {success: false};
         }
     } catch (error) {
         console.error("Error logging in:", error);
+        return {success: false};
     }
 }

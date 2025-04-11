@@ -28,9 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
             password: password
         });
 
-        // Listen for response from background
+        // Listen for response from background and switch back to main if login successful
         port.onMessage.addListener((response) => {
             console.log("Response from background:", response);
+            if (response.success) {
+                document.getElementById("login-form-container").classList.add("hidden");
+                document.getElementById("default-container").classList.remove("hidden");
+            } else {
+                alert(response.message || "Login failed.");
+            }
         });
     })
 
