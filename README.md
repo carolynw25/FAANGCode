@@ -67,7 +67,7 @@ CIS4914 - Senior Project
    a) cd "\Program Files\MairaDB 11.5"<br/>
       Note: If you changed the path when MariaDB was downloaded: "PATH\MariaDB 11.5"<br/>
    b) cd bin<br/>
-   c) mysql -u root -p<br/>
+   c) mysql -u root -p or .\mysql -u root<br/>
 4. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
    
 ## Steps to run FAANGCode
