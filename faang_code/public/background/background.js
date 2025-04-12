@@ -21,7 +21,7 @@ chrome.runtime.onConnect.addListener((port) => {
                     message: error.toString()
                 });
             }
-        } 
+        }
         else if (message.action === "loginButtonClicked") {
             try {
                 console.log("attempting login");
@@ -29,7 +29,7 @@ chrome.runtime.onConnect.addListener((port) => {
                 console.log("Sending result to popup:", result);
                 port.postMessage(result)
             }
-            catch (error) { 
+            catch (error) {
                 console.error("API call failed:", error);
                 port.postMessage({
                     status: "error",
@@ -51,6 +51,7 @@ chrome.runtime.onConnect.addListener((port) => {
                 The problem description is: ${message.problemDescription}. This is my code: ${message.problemCode}`;
                 const response = await callGeminiAPI({ prompt });
 
+                console.log("problem code:", message.problemCode);
                 port.postMessage({
                     status: "success",
                     GeminiAnswer: response,
@@ -59,7 +60,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
                 const dbData = await updateDB(message.problemTag);
                 console.log("Data:", dbData);
-        
+
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
@@ -182,7 +183,7 @@ Time Complexity: O(?), Space Complexity: O(?)
 
 async function callGeminiAPI(data) {
     // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
-    const GEMINI_API_KEY = "AIzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN8"; // KEY HERE
+    const GEMINI_API_KEY = ""; // KEY HERE
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -206,7 +207,7 @@ async function callGeminiAPI(data) {
 
         const result = await response.json();
         return result.candidates[0].content.parts[0].text;
-    } 
+    }
     catch (error) {
         console.error("API call error:", error);
         throw error;
@@ -222,7 +223,7 @@ async function updateDB(problemTag) {
     let numEasy = 0;
     let numMedium = 0;
     let numHard = 0;
-   
+
     const getUserId = () => {
         return new Promise((resolve, reject) => {
             chrome.storage.local.get("userId", (data) => {
@@ -237,16 +238,16 @@ async function updateDB(problemTag) {
 
     try {
         // Wait for userId before proceeding
-        let id = await getUserId(); 
+        let id = await getUserId();
         console.log(id);
         const updateData = {
             id,
             totalNumHintsEasy: difficultyValues.Easy,
-            totalNumHintsMedium: difficultyValues.Medium,  
-            totalNumHintsHard: difficultyValues.Hard, 
+            totalNumHintsMedium: difficultyValues.Medium,
+            totalNumHintsHard: difficultyValues.Hard,
             totalProblemsSolved,
-            numEasy, 
-            numMedium, 
+            numEasy,
+            numMedium,
             numHard
         };
 
@@ -261,12 +262,12 @@ async function updateDB(problemTag) {
 
         if (updateDBResponse.ok) {
             console.log("Successful user data update");
-        } 
+        }
         else {
             console.log("User data failed to update");
             throw new Error("Database update failed");
         }
-    } 
+    }
     catch (error) {
         console.log(error);
     }
