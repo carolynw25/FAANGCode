@@ -74,6 +74,7 @@ CIS4914 - Senior Project
 1. In terminal clone the repository:<br/>
    a) git clone https://github.com/carolynw25/FAANGCode.git
 2. Then cd into "faang_code" to start the FrontEnd<br/>
+   Note: run "npm install" if this is the first time you are running it<br/>
    a) Run "npm start"
    Note: if babel-error run: del package-lock.json, rm node_modules (Press Y), npm install
 4. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
