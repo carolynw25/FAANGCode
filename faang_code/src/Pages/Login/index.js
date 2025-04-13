@@ -42,7 +42,7 @@ function Login() {
                 console.log("Successful Login!");
 
                 // Store id & username in local storage
-                localStorage.setItem("loggedUserId", data.user.id);
+                localStorage.setItem("loggedUserId", data.id);
                 localStorage.setItem("loggedUsername", data.user.username);
                 navigate('/dashboard');  // If successful = Redirect
             } else {
