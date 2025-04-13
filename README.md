@@ -67,13 +67,14 @@ CIS4914 - Senior Project
    a) cd "\Program Files\MairaDB 11.5"<br/>
       Note: If you changed the path when MariaDB was downloaded: "PATH\MariaDB 11.5"<br/>
    b) cd bin<br/>
-   c) mysql -u root -p<br/>
+   c) mysql -u root -p or .\mysql -u root<br/>
 4. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
    
 ## Steps to run FAANGCode
 1. In terminal clone the repository:<br/>
    a) git clone https://github.com/carolynw25/FAANGCode.git
 2. Then cd into "faang_code" to start the FrontEnd<br/>
+   Note: run "npm install" if this is the first time you are running it<br/>
    a) Run "npm start"
    Note: if babel-error run: del package-lock.json, rm node_modules (Press Y), npm install
 4. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
