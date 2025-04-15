@@ -274,7 +274,7 @@ async function updateDB(problemTag) {
 }
 
 async function callGPTAPI(data) {
-    const GPT_KEY = "AIzaSyCZsIa9d_niUCY7vgY1-xmgrF-WwnlKNuc"; // Replace with your actual GPT API key
+    const GPT_KEY = "your-API-key-here"; // Replace with your actual GPT API key
     const options = {
         method: "POST",
         headers: {
