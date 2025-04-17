@@ -206,3 +206,26 @@ app.get('/get-user', async (req, res) => {
   }
 });
 
+//endpoint to delete user's acct
+app.delete('/delete-user', async (req, res) => {
+  const { username } = req.query;
+  const sql = "DELETE FROM user_signup WHERE username = ?";
+
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const result = await conn.query(sql, [username]);
+    conn.release();
+
+    if (result.affectedRows > 0) {
+      res.json({ message: "User deleted successfully!" });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error", details: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});

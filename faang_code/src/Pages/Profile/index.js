@@ -36,6 +36,25 @@ function Profile() {
         navigate('/login');
     };
 
+    const handleDeleteAccount = async () => {
+        try {
+            const response = await fetch(`http://localhost:8081/delete-user?username=${storedUsername}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                localStorage.removeItem('loggedUsername');  //Clear data
+                navigate('/login');
+            } else {
+                const data = await response.json();
+                console.error('Error deleting user:', data.error);
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+        }
+    };
+
+
     if (!user) {
         return <div>Error Loading User Date</div>;
     }
@@ -59,7 +78,10 @@ function Profile() {
                 <label>Email:</label>
                 <span>{user.email}</span>
             </div>
-            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+            <div className="button-group">
+                <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                <button className="delete-btn" onClick={handleDeleteAccount}>Delete Account</button>
+            </div>
         </div>
     );
 }
