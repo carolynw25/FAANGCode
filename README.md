@@ -123,7 +123,7 @@ sudo systemctl start mariadb
 ```cmd
 cd "\Program Files\MariaDB 11.5"
 cd bin
-mysql -u root -p
+mysql -u root -p or .\mysql -u root -p
 ```
 *Note: If you changed the install path, use `PATH\MariaDB 11.5` instead.*
 
