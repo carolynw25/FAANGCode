@@ -15,7 +15,9 @@ function Navbar() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light">
-                <img src="../Images/Gator.png" alt="Image of gator!"/>
+                <Link to="/">
+                    <img src="../Images/Gator.png" alt="Image of gator!"/>
+                </Link>
                 <ul className="navbar-nav d-flex flex-column">
                     <li className="nav-item">
                         <Link to="/dashboard" className="nav-link">Dashboard</Link>
