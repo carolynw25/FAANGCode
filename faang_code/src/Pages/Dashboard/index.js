@@ -137,17 +137,22 @@ function Dashboard() {
     }
 
     return (
-        <div>
+        <div className = "dashboard-content">
             <div className="title">Welcome, FAANGCoder!</div>
             <h1>{username ? `${username}'s Dashboard` : 'Dashboard'}</h1>
             {/* track progress over time*/}
-            <div className="chart-container">
-                <Line data={chartData} options={{responsive: true, maintainAspectRatio: false}}/>
+            <div className="card">
+                <div className="chart-container">
+                    <Line data={chartData} options={{responsive: true, maintainAspectRatio: false}}/>
+                </div> 
             </div>
+            
 
             {/* Problems Solved Over Time Bar Chart */}
-            <div className="chart-container">
-                <Bar data={barChartData} options={barChartOptions}/>
+            <div className="card">
+                <div className="chart-container">
+                    <Bar data={barChartData} options={barChartOptions}/>
+                </div>
             </div>
 
             {/* grabs from DB, but sets a default of 0*/}

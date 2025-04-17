@@ -18,6 +18,7 @@ body {
     max-width: 400px;
     text-align: center;
     animation: fadeIn 0.5s ease-in-out;
+    margin-left: 230px;
 }
 
 /* Profile heading */

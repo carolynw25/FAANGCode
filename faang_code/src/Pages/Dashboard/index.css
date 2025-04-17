@@ -1,3 +1,15 @@
+.dashboard-content {
+    /* margin-left: 230px; /* make space for the sidebar */
+    padding-right: 20px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    margin-top: 1000px;
+    text-align: center;
+}
+
 body, html {
     overflow-x: hidden; /* Prevent horizontal scrolling */
     overflow-y: auto; /* Allow vertical scrolling */
@@ -20,7 +32,7 @@ body, html {
 
 .chart-container {
     display: flex;
-    margin-left: 230px;
+    /* margin-left: 230px; */
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -35,9 +47,12 @@ body, html {
     font-size: 40px;
     color: #4caaf2;
     margin-left: 230px;
-    margin-top: 500px; /* title keeps going off screen idk.. */
+    /* margin-top: 500px; /* title keeps going off screen idk.. */
     padding: 20px 0;
+    /* padding-top: 150px; */
+    text-align: center;
 }
+
 .stats-container {
     display: flex;
     gap: 20px;
@@ -81,3 +96,15 @@ body, html {
     height: 60px;
     margin-bottom: 8px;
 }
+
+.card {
+    background: #a6d8ff44;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin-left: 230px;
+}
+
