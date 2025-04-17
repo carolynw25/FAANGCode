@@ -33,6 +33,10 @@ function Dashboard() {
             tension: 0.1
         }]
     });
+    const [barChartData,setBarChartData] = useState({
+        labels: [],
+        datasets: []
+    });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,7 +49,7 @@ function Dashboard() {
             navigate('/login');
         }
 
-        // Fetch data from your API here!!
+        //fetch data from your API
         if (storedUsername) {
             setUsername(storedUsername);
             setUserId(storedUserId);
@@ -55,47 +59,63 @@ function Dashboard() {
                 .then(data => {
                     setUserStats(data);
                     setChartData({
+                        labels: ['Number of Easy Hints', 'Number of Medium Hints', 'Number of Hard Hints'],
+                        datasets: [{
+                            ...chartData.datasets[0],
+                            data: [data.totalNumHintsEasy, data.totalNumHintsMedium, data.totalNumHintsHard],
+                            //chnage this to be total hints over time
+                        }]
+                    });
+
+                    /*fetch(`http://localhost:8081/get-user-info?id=${storedUserId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setUserStats(data);
+                    setChartData({
                         labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
                         datasets: [{
                             ...chartData.datasets[0],
-                            data: [data.totalNumHintsEasy, data.totalNumHintsMedium, data.totalNumHintsHard], 
+                            data: data.totalNumHintsEasy + data.totalNumHintsMedium+ data.totalNumHintsHard,
+                            //chnage this to be total hints over time
+                        }]
+                    });*/
 
+                    setBarChartData({
+                        labels: ['Easy Hints', 'Medium Hints', 'Hard Hints'],
+                        datasets: [{
+                            label: 'Hints Used by Difficulty',
+                            data: [
+                                data.totalNumHintsEasy || 0,
+                                data.totalNumHintsMedium || 0,
+                                data.totalNumHintsHard || 0
+                            ],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(255, 99, 132, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 3
                         }]
                     });
+
+
                 })
                 .catch(error => console.error('Error fetching user data:', error));
         }
-        // For now, we'll use mock data...
-        // const mockData = {
-        //     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-        //     data: [7, 5, 6, 4, 2]
-        // };
-
-        // setChartData({
-        //     labels: mockData.labels,
-        //     datasets: [{
-        //         ...chartData.datasets[0],
-        //         data: mockData.data
-        //     }]
-        // });
     }, [navigate]);
 
-    // Hardcoded Data for Problems Solved Over Time
-    const barChartData = {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-        datasets: [{
-            label: 'Problems Solved',
-            data: [3, 5, 8, 6, 10], // Example numbers
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }]
-    };
     const barChartOptions = {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            y: { beginAtZero: true }
+            y: {
+                beginAtZero: true
+            }
         }
     };
 
@@ -115,9 +135,9 @@ function Dashboard() {
 
             {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
-                <div className="stat-item"><h3>Total Problems Solved✅</h3><p>{userStats ? userStats.totalProblemsSolved : 0}</p></div>
-                <div className="stat-item"><h3>Difficulty Breakdown📊</h3><p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} | Medium: {userStats ? userStats.totalNumHintsMedium : 0} | Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
-                <div className="stat-item"><h3>AI Hints Used🧠</h3> <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p></div>
+                <div className="stat-item"><h3>Badges and Achievements</h3><p>put some sort of badge here - maybe rank by number hints</p></div>
+                <div className="stat-item"><h3>Difficulty Breakdown</h3><p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} | Medium: {userStats ? userStats.totalNumHintsMedium : 0} | Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
+                <div className="stat-item"><h3>AI Hints Used</h3> <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p></div>
             </div>
         </div>
     );
