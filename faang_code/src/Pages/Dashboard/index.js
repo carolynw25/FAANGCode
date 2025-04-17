@@ -7,20 +7,19 @@ import {useNavigate} from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
 
+//function for badges & achievements
+function getHintBadges(totalHints) {
+    const badges = [];
 
+    if (totalHints >= 1) badges.push("hint_novice");
+    if (totalHints >= 10) badges.push("hint_apprentice");
+    if (totalHints >= 25) badges.push("hint_pro");
+    if (totalHints >= 50) badges.push("hint_legend");
+
+    return badges;
+}
 
 function Dashboard() {
-    //back-end database will store:
-        //1. the coding problem
-        //2. the user's code
-        //3. the AI feedback
-        // etc.?
-    //add more features:
-        //Number of Problems Solved Over Time (Another line chart or bar chart)
-        // Hints Used vs. Problems Solved Over Time (Track efficiency)
-        //recent activity: display most recent coding attempt
-        //badges
-    //[variable, function to set it]
     const [userStats, setUserStats] = useState(null);
     const [username, setUsername] = useState('');
     const [userId, setUserId] = useState('');
@@ -81,20 +80,23 @@ function Dashboard() {
                     });*/
 
                     setBarChartData({
-                        labels: ['Easy Hints', 'Medium Hints', 'Hard Hints'],
+                        labels: ['Total Hints', 'Easy Hints', 'Medium Hints', 'Hard Hints'],
                         datasets: [{
                             label: 'Hints Used by Difficulty',
                             data: [
+                                data.totalNumHintsEasy + data.totalNumHintsMedium+ data.totalNumHintsHard || 0,
                                 data.totalNumHintsEasy || 0,
                                 data.totalNumHintsMedium || 0,
                                 data.totalNumHintsHard || 0
                             ],
                             backgroundColor: [
+                                'rgba(114,75,192,0.6)',
                                 'rgba(75, 192, 192, 0.6)',
                                 'rgba(255, 206, 86, 0.6)',
                                 'rgba(255, 99, 132, 0.6)'
                             ],
                             borderColor: [
+                                'rgba(152,100,251,0.97)',
                                 'rgba(75, 192, 192, 1)',
                                 'rgba(255, 206, 86, 1)',
                                 'rgba(255, 99, 132, 1)'
@@ -119,6 +121,21 @@ function Dashboard() {
         }
     };
 
+    const totalHintsUsed = userStats
+        ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard
+        : 0;
+
+    const userHintBadges = getHintBadges(totalHintsUsed);
+
+    function HintBadge({ title, icon, unlocked }) {
+        return (
+            <div className={`badge ${unlocked ? 'unlocked' : 'locked'}`}>
+                <img src={icon} alt={title} className="badge-icon" />
+                <p>{title}</p>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="title">Welcome, FAANGCoder!</div>
@@ -135,9 +152,27 @@ function Dashboard() {
 
             {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
-                <div className="stat-item"><h3>Badges and Achievements</h3><p>put some sort of badge here - maybe rank by number hints</p></div>
-                <div className="stat-item"><h3>Difficulty Breakdown</h3><p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} | Medium: {userStats ? userStats.totalNumHintsMedium : 0} | Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
-                <div className="stat-item"><h3>AI Hints Used</h3> <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p></div>
+                <div className="stat-item">
+                    <h3>Badges and Achievements</h3>
+                    <div className="badge-container">
+                        <HintBadge title="Hint Novice" icon="/Badges/badge1.png"
+                                   unlocked={userHintBadges.includes("hint_novice")}/>
+                        <HintBadge title="Hint Apprentice" icon="/Badges/badge2.png"
+                                   unlocked={userHintBadges.includes("hint_apprentice")}/>
+                        <HintBadge title="Hint Pro" icon="/Badges/badge3.png"
+                                   unlocked={userHintBadges.includes("hint_pro")}/>
+                        <HintBadge title="Hint Legend" icon="/Badges/badge4.png"
+                                   unlocked={userHintBadges.includes("hint_legend")}/>
+                    </div>
+                </div>
+                <div className="stat-item"><h3>Difficulty Breakdown</h3>
+                    <p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} |
+                        Medium: {userStats ? userStats.totalNumHintsMedium : 0} |
+                        Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
+                <div className="stat-item"><h3>AI Hints Used</h3>
+                    <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p>
+                </div>
+
             </div>
         </div>
     );
