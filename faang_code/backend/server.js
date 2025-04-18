@@ -105,25 +105,21 @@ app.post('/save-extension-data', async (req, res) => {
       totalNumHintsEasy = totalNumHintsEasy + ?,
       totalNumHintsMedium = totalNumHintsMedium + ?,
       totalNumHintsHard = totalNumHintsHard + ?,
-      totalProblemsSolved = totalProblemsSolved + ?,
-      numEasy = numEasy + ?,
-      numMedium = numMedium + ?,
-      numHard = numHard + ?
+      totalDebug = totalDebug + ?,
+      totalComplexity = totalComplexity + ?
   `;
 
   let conn;
   try {
-    const { id, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard, totalProblemsSolved, numEasy, numMedium, numHard } = req.body;
+    const { id, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard, totalDebug, totalComplexity } = req.body;
 
     const values = [
-      id, 
-      totalNumHintsEasy, 
+      id,
+      totalNumHintsEasy,
       totalNumHintsMedium, 
-      totalNumHintsHard, 
-      totalProblemsSolved,
-      numEasy, 
-      numMedium, 
-      numHard
+      totalNumHintsHard,
+      totalDebug,
+      totalComplexity
     ];
 
     conn = await pool.getConnection();
