@@ -4,11 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
     const navigate = useNavigate();
+    const storedUsername = localStorage.getItem('loggedUsername'); // check login status
 
-    const handleLogout = () => {
-        //clear any stored data - right now, just username is stored upon login
+
+    const Logout = () => {
         localStorage.removeItem('loggedUsername');
-        //redirect to login page
+        navigate('/login');
+    };
+
+    const LoginRedirect = () => {
         navigate('/login');
     };
 
@@ -18,7 +22,8 @@ function Navbar() {
                 <Link to="/">
                     <img src="../Images/Gator.png" alt="Image of gator!"/>
                 </Link>
-                <ul className="navbar-nav d-flex flex-column">
+                <ul className="navbar-nav d-flex flex-column nav-content">
+                <div className="nav-links">
                     <li className="nav-item">
                         <Link to="/dashboard" className="nav-link">Dashboard</Link>
                     </li>
@@ -28,9 +33,17 @@ function Navbar() {
                     <li className="nav-item">
                         <Link to="/profile" className="nav-link">Profile</Link>
                     </li>
+                    </div>
+                    <div className="nav-bottom">
                     <li className="nav-item logout-item">
-                        <button className="nav-link logout-button" onClick={handleLogout}>Sign Out</button>
+                        {/* javascript if else */}
+                        {storedUsername ? (
+                            <button className="nav-link logout-button" onClick={Logout}>Sign Out</button>
+                        ) : (
+                            <button className="nav-link logout-button" onClick={LoginRedirect}>Sign In</button>
+                        )}
                     </li>
+                    </div>
                 </ul>
             </nav>
 
