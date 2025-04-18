@@ -115,7 +115,7 @@ app.post('/save-extension-data', async (req, res) => {
 
     const values = [
       id,
-      totalNumHintsEasy,
+      totalNumHintsEasy, 
       totalNumHintsMedium, 
       totalNumHintsHard,
       totalDebug,
@@ -148,7 +148,7 @@ app.get('/get-user-info', async (req, res) => {
     return res.status(400).json({ error: "User ID required" });
   }
 
-  const sql = "SELECT firstName, lastName, username, totalProblemsSolved, numEasy, numMedium, numHard, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE user_signup.id = ?";
+  const sql = "SELECT firstName, lastName, username, totalDebug, totalComplexity, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE user_signup.id = ?";
   
   let conn;
   try {
