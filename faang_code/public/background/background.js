@@ -183,7 +183,7 @@ Time Complexity: O(?), Space Complexity: O(?)
 
 async function callGeminiAPI(data) {
     // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
-    const GEMINI_API_KEY = ""; // KEY HERE
+    const GEMINI_API_KEY = "AIzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN8"; // KEY HERE
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
