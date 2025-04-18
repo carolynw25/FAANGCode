@@ -189,7 +189,7 @@ npm run build
 5. Click **"Load unpacked"** and select the folder:  
    `FAANGCode/faang_code/public`
 
-> Note: You may need to toggle **Developer mode** (top right corner).
+> Note: You may need to toggle **Developer mode** (top right corner). If code has changed since original download click "Reload" to update.
 
 Now, when visiting a LeetCode problem, you can open the extension and have it analyze your code.
 
