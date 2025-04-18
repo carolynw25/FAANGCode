@@ -116,7 +116,7 @@ function Dashboard() {
             {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
                 <div className="stat-item"><h3>Total Problems Solved✅</h3><p>{userStats ? userStats.totalProblemsSolved : 0}</p></div>
-                <div className="stat-item"><h3>Difficulty Breakdown📊</h3><p>Easy: {userStats ? userStats.numEasy : 0} | Medium: {userStats ? userStats.numMedium : 0} | Hard: {userStats ? userStats.numHard : 0}</p></div>
+                <div className="stat-item"><h3>Difficulty Breakdown📊</h3><p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} | Medium: {userStats ? userStats.totalNumHintsMedium : 0} | Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
                 <div className="stat-item"><h3>AI Hints Used🧠</h3> <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p></div>
             </div>
         </div>

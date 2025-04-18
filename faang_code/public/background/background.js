@@ -21,7 +21,7 @@ chrome.runtime.onConnect.addListener((port) => {
                     message: error.toString()
                 });
             }
-        } 
+        }
         else if (message.action === "loginButtonClicked") {
             try {
                 console.log("attempting login");
@@ -29,7 +29,7 @@ chrome.runtime.onConnect.addListener((port) => {
                 console.log("Sending result to popup:", result);
                 port.postMessage(result)
             }
-            catch (error) { 
+            catch (error) {
                 console.error("API call failed:", error);
                 port.postMessage({
                     status: "error",
@@ -51,6 +51,7 @@ chrome.runtime.onConnect.addListener((port) => {
                 The problem description is: ${message.problemDescription}. This is my code: ${message.problemCode}`;
                 const response = await callGeminiAPI({ prompt });
 
+                console.log("problem code:", message.problemCode);
                 port.postMessage({
                     status: "success",
                     GeminiAnswer: response,
@@ -59,7 +60,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
                 const dbData = await updateDB(message.problemTag);
                 console.log("Data:", dbData);
-        
+
                 // Send the response back to the popup script
                 chrome.runtime.sendMessage({
                     status: "success",
@@ -212,7 +213,7 @@ async function callGeminiAPI(data) {
 
         const result = await response.json();
         return result.candidates[0].content.parts[0].text;
-    } 
+    }
     catch (error) {
         console.error("API call error:", error);
         throw error;
@@ -290,7 +291,7 @@ async function updateDBForCompDebug(buttonClicked) {
     else {
         throw new Error("How did you get here?")
     }
-   
+  
     const getUserId = () => {
         return new Promise((resolve, reject) => {
             chrome.storage.local.get("userId", (data) => {
@@ -305,7 +306,7 @@ async function updateDBForCompDebug(buttonClicked) {
 
     try {
         // Wait for userId before proceeding
-        let id = await getUserId(); 
+        let id = await getUserId();
         console.log(id);
         const updateData = {
             id,
@@ -327,19 +328,19 @@ async function updateDBForCompDebug(buttonClicked) {
 
         if (updateDBResponse.ok) {
             console.log("Successful user data update");
-        } 
+        }
         else {
             console.log("User data failed to update");
             throw new Error("Database update failed");
         }
-    } 
+    }
     catch (error) {
         console.log(error);
     }
 }
 
 async function callGPTAPI(data) {
-    const GPT_KEY = "your_gpt_api_key"; // Replace with your actual GPT API key
+    const GPT_KEY = "your-API-key-here"; // Replace with your actual GPT API key
     const options = {
         method: "POST",
         headers: {
