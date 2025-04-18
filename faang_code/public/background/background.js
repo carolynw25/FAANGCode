@@ -106,6 +106,9 @@ Do NOT include any additional commentary.
 ANYTHING beyond the exact required phrase is incorrect.`;
                 const response = await callGeminiAPI({ prompt });
 
+                const dbData = await updateDBForCompDebug("debug");
+                console.log("Data:", dbData);
+
                 port.postMessage({
                     status: "success",
                     GeminiAnswer: response,
@@ -155,6 +158,9 @@ Time Complexity: O(?), Space Complexity: O(?)
 
                 const response = await callGeminiAPI({ prompt });
 
+                const dbData = await updateDBForCompDebug("complexity");
+                console.log("Data:", dbData);
+
                 port.postMessage({
                     status: "success",
                     GeminiAnswer: response,
@@ -186,7 +192,7 @@ Time Complexity: O(?), Space Complexity: O(?)
 
 async function callGeminiAPI(data) {
     // Key is something A8 IzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN dsafasfa
-    const GEMINI_API_KEY = "AIzaSyDM_uaNe9uD16fn63j1zIYj_zMiuVPaMN8"; // KEY HERE
+    const GEMINI_API_KEY = ""; // KEY HERE
     const model = "gemini-2.0-flash-lite-001"; // Updated model
     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -222,11 +228,73 @@ async function updateDB(problemTag) {
     const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
     difficultyValues[problemTag] = 1;
     //temp values
-    let totalProblemsSolved = 0;
-    let numEasy = 0;
-    let numMedium = 0;
-    let numHard = 0;
+    let totalDebug = 0
+    let totalComplexity = 0
+   
+    const getUserId = () => {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get("userId", (data) => {
+                if (data.userId) {
+                    resolve(data.userId);
+                } else {
+                    reject("User is not logged in.");
+                }
+            });
+        });
+    };
 
+    try {
+        // Wait for userId before proceeding
+        let id = await getUserId(); 
+        console.log(id);
+        const updateData = {
+            id,
+            totalNumHintsEasy: difficultyValues.Easy,
+            totalNumHintsMedium: difficultyValues.Medium,  
+            totalNumHintsHard: difficultyValues.Hard,
+            totalDebug,
+            totalComplexity
+        };
+
+        // Send data to backend
+        const updateDBResponse = await fetch('http://localhost:8081/save-extension-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        if (updateDBResponse.ok) {
+            console.log("Successful user data update");
+        } 
+        else {
+            console.log("User data failed to update");
+            throw new Error("Database update failed");
+        }
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateDBForCompDebug(buttonClicked) {
+    // Update DB with user stats
+    const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
+    //temp values
+    let totalDebug = 0;
+    let totalComplexity = 0;
+
+    if (buttonClicked == "debug") {
+        totalDebug += 1;
+    }
+    else if (buttonClicked == "complexity") {
+        totalComplexity += 1;
+    }
+    else {
+        throw new Error("How did you get here?")
+    }
+  
     const getUserId = () => {
         return new Promise((resolve, reject) => {
             chrome.storage.local.get("userId", (data) => {
@@ -246,12 +314,10 @@ async function updateDB(problemTag) {
         const updateData = {
             id,
             totalNumHintsEasy: difficultyValues.Easy,
-            totalNumHintsMedium: difficultyValues.Medium,
+            totalNumHintsMedium: difficultyValues.Medium,  
             totalNumHintsHard: difficultyValues.Hard,
-            totalProblemsSolved,
-            numEasy,
-            numMedium,
-            numHard
+            totalDebug,
+            totalComplexity
         };
 
         // Send data to backend
