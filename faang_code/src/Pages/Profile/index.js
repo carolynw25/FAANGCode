@@ -37,20 +37,24 @@ function Profile() {
     };
 
     const handleDeleteAccount = async () => {
-        try {
-            const response = await fetch(`http://localhost:8081/delete-user?username=${storedUsername}`, {
-                method: 'DELETE'
-            });
+        const confirmDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
 
-            if (response.ok) {
-                localStorage.removeItem('loggedUsername');  //Clear data
-                navigate('/login');
-            } else {
-                const data = await response.json();
-                console.error('Error deleting user:', data.error);
+        if (confirmDelete) {
+            try {
+                const response = await fetch(`http://localhost:8081/delete-user?username=${storedUsername}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    localStorage.removeItem('loggedUsername');  //Clear data
+                    navigate('/login');
+                } else {
+                    const data = await response.json();
+                    console.error('Error deleting user:', data.error);
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
             }
-        } catch (error) {
-            console.error('Error deleting user:', error);
         }
     };
 
