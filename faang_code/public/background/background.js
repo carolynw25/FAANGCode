@@ -135,7 +135,7 @@ Any issue that doesn't prevent the code from passing tests`;
         }
         else if (message.action === "callGeminiAPIComplexity") {
             try {
-                const prompt = `You are an expert programmer with a deep understanding of algorithms and computational complexity. Your task is to analyze a LeetCode-style coding problem and its corresponding solution. Carefully evaluate the code, considering built-in functions, language-specific optimizations, and problem constraints, and determine its time complexity and space complexity. Tell me just the time and space comeplexity you do not have to repeat the code back to me. If the code given is not an actual solution or doesn't work just return the space and time complexity of the broken code. If the code is nto actually code just say there is no space or time complexity for this.
+                const prompt = `You are an expert programmer with a deep understanding of algorithms and computational complexity. Your task is to analyze a LeetCode-style coding problem and its corresponding solution. Carefully evaluate the code, considering built-in functions, language-specific optimizations, and problem constraints, and determine its time complexity and space complexity. Tell me just the time and space comeplexity you do not have to repeat the code back to me. If the code given is not an actual solution or doesn't work just return the space and time complexity of the broken code. If the code is not actually code just say there is no space or time complexity for this.
 
 Pay special attention to:
 - **Dynamic data structures** (e.g., vectors, hash maps, linked lists): If a vector (or equivalent resizable array) is created and stores n elements, the space complexity is **at least O(n)**.
