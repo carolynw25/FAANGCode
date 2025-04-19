@@ -36,6 +36,11 @@ function Dashboard() {
         labels: [],
         datasets: []
     });
+    const [barChartTotalData, setBarChartTotalData] = useState({
+        labels: [],
+        datasets: []
+    });
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -57,46 +62,48 @@ function Dashboard() {
                 .then(response => response.json())
                 .then(data => {
                     setUserStats(data);
-                    setChartData({
-                        labels: ['Number of Easy Hints', 'Number of Medium Hints', 'Number of Hard Hints'],
+
+                    //horizontal bar chart displaying count of all attribute totals
+                    setBarChartTotalData({
+                        labels: ['AI Hints Used', 'Debug Requests', 'Complexity Checks'],
                         datasets: [{
-                            ...chartData.datasets[0],
-                            data: [data.totalNumHintsEasy, data.totalNumHintsMedium, data.totalNumHintsHard],
-                            //chnage this to be total hints over time
+                            label: 'Number of Times Used',
+                            data: [
+                                data.totalNumHintsEasy + data.totalNumHintsMedium+ data.totalNumHintsHard || 0,
+                                data.totalDebug || 0,
+                                data.totalComplexity || 0,
+                            ],
+                            backgroundColor: [
+                                'rgba(75,147,192,0.6)',
+                                'rgb(202,109,47)',
+                                'rgb(31,49,170)'
+                            ],
+                            borderColor: [
+                                'rgb(85,169,205)',
+                                'rgb(246,135,58)',
+                                'rgb(48,74,253)'
+                            ],
+                            borderWidth: 3
                         }]
                     });
 
-                    /*fetch(`http://localhost:8081/get-user-info?id=${storedUserId}`)
-                .then(response => response.json())
-                .then(data => {
-                    setUserStats(data);
-                    setChartData({
-                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-                        datasets: [{
-                            ...chartData.datasets[0],
-                            data: data.totalNumHintsEasy + data.totalNumHintsMedium+ data.totalNumHintsHard,
-                            //chnage this to be total hints over time
-                        }]
-                    });*/
 
+                    //car chart of hint breakdown
                     setBarChartData({
-                        labels: ['Total Hints', 'Easy Hints', 'Medium Hints', 'Hard Hints'],
+                        labels: ['Easy Hints', 'Medium Hints', 'Hard Hints'],
                         datasets: [{
                             label: 'Hints Used by Difficulty',
                             data: [
-                                data.totalNumHintsEasy + data.totalNumHintsMedium+ data.totalNumHintsHard || 0,
                                 data.totalNumHintsEasy || 0,
                                 data.totalNumHintsMedium || 0,
                                 data.totalNumHintsHard || 0
                             ],
                             backgroundColor: [
-                                'rgba(114,75,192,0.6)',
                                 'rgba(75, 192, 192, 0.6)',
                                 'rgba(255, 206, 86, 0.6)',
                                 'rgba(255, 99, 132, 0.6)'
                             ],
                             borderColor: [
-                                'rgba(152,100,251,0.97)',
                                 'rgba(75, 192, 192, 1)',
                                 'rgba(255, 206, 86, 1)',
                                 'rgba(255, 99, 132, 1)'
@@ -117,6 +124,27 @@ function Dashboard() {
         scales: {
             y: {
                 beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    };
+
+    const horizontalBarChartOptions = {
+        indexAxis: 'y', // <--- makes the bars horizontal
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
             }
         }
     };
@@ -142,14 +170,16 @@ function Dashboard() {
             <h1>{username ? `${username}'s Dashboard` : 'Dashboard'}</h1>
             {/* track progress over time*/}
             <div className="card">
+                <h3>FAANGCode Usage Summary</h3>
                 <div className="chart-container">
-                    <Line data={chartData} options={{responsive: true, maintainAspectRatio: false}}/>
-                </div> 
+                    <Bar data={barChartTotalData} options={horizontalBarChartOptions}/>
+                </div>
             </div>
-            
+
 
             {/* Problems Solved Over Time Bar Chart */}
             <div className="card">
+                <h3>Hints Used by Difficulty</h3>
                 <div className="chart-container">
                     <Bar data={barChartData} options={barChartOptions}/>
                 </div>
