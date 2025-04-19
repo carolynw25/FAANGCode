@@ -105,25 +105,21 @@ app.post('/save-extension-data', async (req, res) => {
       totalNumHintsEasy = totalNumHintsEasy + ?,
       totalNumHintsMedium = totalNumHintsMedium + ?,
       totalNumHintsHard = totalNumHintsHard + ?,
-      totalProblemsSolved = totalProblemsSolved + ?,
-      numEasy = numEasy + ?,
-      numMedium = numMedium + ?,
-      numHard = numHard + ?
+      totalDebug = totalDebug + ?,
+      totalComplexity = totalComplexity + ?
   `;
 
   let conn;
   try {
-    const { id, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard, totalProblemsSolved, numEasy, numMedium, numHard } = req.body;
+    const { id, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard, totalDebug, totalComplexity } = req.body;
 
     const values = [
-      id, 
+      id,
       totalNumHintsEasy, 
       totalNumHintsMedium, 
-      totalNumHintsHard, 
-      totalProblemsSolved,
-      numEasy, 
-      numMedium, 
-      numHard
+      totalNumHintsHard,
+      totalDebug,
+      totalComplexity
     ];
 
     conn = await pool.getConnection();
@@ -152,7 +148,7 @@ app.get('/get-user-info', async (req, res) => {
     return res.status(400).json({ error: "User ID required" });
   }
 
-  const sql = "SELECT firstName, lastName, username, totalProblemsSolved, numEasy, numMedium, numHard, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE user_signup.id = ?";
+  const sql = "SELECT firstName, lastName, username, totalDebug, totalComplexity, totalNumHintsEasy, totalNumHintsMedium, totalNumHintsHard FROM user_signup JOIN user_data ON user_signup.id = user_data.id WHERE user_signup.id = ?";
   
   let conn;
   try {

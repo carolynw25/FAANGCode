@@ -1,95 +1,196 @@
-# FAANGCode
-CIS4914 - Senior Project
+# FAANGCode  
+**CIS4914 - Senior Project**
 
-## Steps to setup Database (for MacOS)
-1. Install MariaDB with Homebrew:<br/>
-   a) brew install mariadb
-2. Start the database server:<br/>
-   a) brew services start mariadb
-3. Login as root (Note: password for sudo command is same as computer login password)<br/>
-   a) sudo mysql -u root
-4. Create a new user<br/>
-   a) CREATE USER 'user1'@'localhost' IDENTIFIED BY 'password1';
-5. Grant privileges to all databases and tables to the new created user<br/>
-   a) GRANT ALL PRIVILEGES ON \*.\* TO 'user1'@'localhost';
-6. Refresh privilage table to make changes applied to the database<br/>
-   a) FLUSH PRIVILEGES;
-7. Exit the DBMS and login as new user<br/>
-   a) exit;<br/>
-   b) mysql -u user1 -p<br/>
-   c) *when prompted for password*: password1
-8. Create the database and select it<br/>
-   a) CREATE DATABASE faangUsers;<br/>
-   b) USE faangUsers;
-      - To check sucess of database creation:<br/>
-         - SHOW DATABASES;<br/>
-10. Create the table<br/>
-    a) CREATE TABLE user_signup (
-    id INT AUTO_INCREMENT PRIMARY KEY, 
-    firstName VARCHAR(100) NOT NULL,
-    lastName VARCHAR(100) NOT NULL,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE
-   );<br/>
-   b) CREATE TABLE user_data (
-    id INT PRIMARY KEY,
-    totalNumHintsEasy INT NOT NULL DEFAULT 0,
-    totalNumHintsMedium INT NOT NULL DEFAULT 0,
-    totalNumHintsHard INT NOT NULL DEFAULT 0,
-    totalProblemsSolved INT DEFAULT 0,
-    numEasy INT DEFAULT 0,
-    numMedium INT DEFAULT 0,
-    numHard INT DEFAULT 0
-   ); <br/>
-      - To check sucess of table creation: <br/>
-         - SHOW TABLES;
+---
 
-## Steps to setup Database (for Ubuntu/Debian Linux)
-1. Install MariaDB with apt<br/>
-   a) sudo apt update
-2. Add the repository that contains the pacakges to install mariaDB 11.5.2 on Ubuntu system<br/>
-   a) curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.5.2
-3. Install MariaDB server and client packages from configured repositories<br/>
-   a) sudo apt update<br/>
-   b) sudo apt -y install mariadb-server mariadb-client
-4. Start database server<br/>
-   a) sudo systemctl start mariadb
-5. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
+## Steps to Set Up Database (MacOS)
 
-## Steps to setup Database (Windows)
-1. Install MariaDB from the official website: https://mariadb.org/. Follow directions<br/>
-   a) If you change where MariaDB will download, remember it.<br/>
-   b) If you do set the optional password, remember it.<br/>
-   c) Enable UTF-8 as the default character set<br/>
-   d) Also, remember the port number set<br/>
-3. Once downloaded, open Command Prompt and login as root<br>
-   a) cd "\Program Files\MairaDB 11.5"<br/>
-      Note: If you changed the path when MariaDB was downloaded: "PATH\MariaDB 11.5"<br/>
-   b) cd bin<br/>
-   c) mysql -u root -p or .\mysql -u root<br/>
-4. Follow steps 4-9 from "Steps to setup Database (for MacOS)"<br/>
-   
-## Steps to run FAANGCode
-1. In terminal clone the repository:<br/>
-   a) git clone https://github.com/carolynw25/FAANGCode.git
-2. Then cd into "faang_code" to start the FrontEnd<br/>
-   Note: run "npm install" if this is the first time you are running it<br/>
-   a) Run "npm start"
-   Note: if babel-error run: del package-lock.json, rm node_modules (Press Y), npm install
-4. In a separate terminal, cd into "faang_code/backend" to start the BackEnd<br/>
-   a) Run "npm start"<br/>
-   Note: if an error with nodemon occurs run the following in "faang_code" directory: npm install<br/>
-   Note: if an error with nodemon occurs still run: npm install nodemon --save-dev<br/>
-   Note: if an error with babel occurs run: npm ls babel-loader <br/>
+### 1. Install MariaDB with Homebrew:
+```bash
+brew install mariadb
+```
 
-## Steps to setup Chrome Extension
-1. Go to Gemini API Developer Kit and request a key <br/>
-   a) Add the key into the faang_code/public/background/background.js GeminiAPI function <br/>
-2. Cd into the faang_code project folder and run 'npm run build' in terminal <br/>
-3. Go to chrome://extensions/ on Google Chrome <br/>
-4. Press load unpacked and go to the folder FAANGCode\faang_code\public <br/>
-   Note: may have to toggle "Developer mode" on, in top right corner to see this option.<br/>
-5. Now if you go to leetcode.com and open a leetcode problem, you can now open the extension and have it analyze your code. <br/>
-   Happy coding!
-   
+### 2. Start the database server:
+```bash
+brew services start mariadb
+```
+
+### 3. Login as root  
+(Note: password for `sudo` is your computer login password)
+```bash
+sudo mysql -u root
+```
+
+### 4. Create a new user:
+```sql
+CREATE USER 'user1'@'localhost' IDENTIFIED BY 'password1';
+```
+
+### 5. Grant privileges to the new user:
+```sql
+GRANT ALL PRIVILEGES ON *.* TO 'user1'@'localhost';
+```
+
+### 6. Refresh privilege table:
+```sql
+FLUSH PRIVILEGES;
+```
+
+### 7. Exit and login as the new user:
+```bash
+exit
+mysql -u user1 -p
+# When prompted, enter: password1
+```
+
+### 8. Create the database and use it:
+```sql
+CREATE DATABASE faangUsers;
+USE faangUsers;
+```
+
+### 9. Check if the database was created:
+```sql
+SHOW DATABASES;
+```
+
+### 10. Create the tables:
+```sql
+CREATE TABLE user_signup (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  firstName VARCHAR(100) NOT NULL,
+  lastName VARCHAR(100) NOT NULL,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_data (
+  id INT PRIMARY KEY,
+  totalNumHintsEasy INT NOT NULL DEFAULT 0,
+  totalNumHintsMedium INT NOT NULL DEFAULT 0,
+  totalNumHintsHard INT NOT NULL DEFAULT 0,
+  totalProblemsSolved INT DEFAULT 0,
+  numEasy INT DEFAULT 0,
+  numMedium INT DEFAULT 0,
+  numHard INT DEFAULT 0
+);
+```
+
+### 11. Check if the tables were created:
+```sql
+SHOW TABLES;
+```
+
+---
+
+## Steps to Set Up Database (Ubuntu/Debian Linux)
+
+### 1. Install MariaDB:
+```bash
+sudo apt update
+```
+
+### 2. Add the MariaDB repository:
+```bash
+curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.5.2
+```
+
+### 3. Install server and client:
+```bash
+sudo apt update
+sudo apt -y install mariadb-server mariadb-client
+```
+
+### 4. Start the database server:
+```bash
+sudo systemctl start mariadb
+```
+
+### 5. Follow steps 4–9 from **MacOS instructions**
+
+---
+
+## Steps to Set Up Database (Windows)
+
+### 1. Install MariaDB from: https://mariadb.org/  
+- If you change the install path, remember it.  
+- If you set a password, remember it.  
+- Enable UTF-8 as the default character set.  
+- Remember the port number set.
+
+### 2. Open Command Prompt and login as root:
+```cmd
+cd "\Program Files\MariaDB 11.5"
+cd bin
+mysql -u root -p or .\mysql -u root -p
+```
+*Note: If you changed the install path, use `PATH\MariaDB 11.5` instead.*
+
+### 3. Follow steps 4–9 from **MacOS instructions**
+
+---
+
+## Steps to Run FAANGCode
+
+### 1. Clone the repository:
+```bash
+git clone https://github.com/carolynw25/FAANGCode.git
+```
+
+### 2. Start the Frontend:
+```bash
+cd faang_code
+npm install   # only the first time
+npm start
+```
+*Note: If you get a babel error:*
+```bash
+del package-lock.json
+rm -rf node_modules  # press Y if prompted
+npm install
+```
+
+### 3. Start the Backend (in a separate terminal):
+```bash
+cd faang_code/backend
+npm start
+```
+
+*Notes if errors occur:*
+- For nodemon error in `faang_code`:  
+  ```bash
+  npm install
+  npm install nodemon --save-dev
+  ```
+
+- For babel error:  
+  ```bash
+  npm ls babel-loader
+  ```
+
+---
+
+## Steps to Set Up Chrome Extension
+
+1. Go to Gemini API Developer Kit and request a key.  
+2. Add the key to:  
+   `faang_code/public/background/background.js` in the `GeminiAPI` function.
+
+3. Build the project:
+```bash
+cd faang_code
+npm run build
+```
+
+4. In Google Chrome, go to:  
+   `chrome://extensions/`
+
+5. Click **"Load unpacked"** and select the folder:  
+   `FAANGCode/faang_code/public`
+
+> Note: You may need to toggle **Developer mode** (top right corner). If code has changed since original download click "Reload" to update.
+
+Now, when visiting a LeetCode problem, you can open the extension and have it analyze your code.
+
+**Happy coding!**

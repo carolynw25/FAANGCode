@@ -83,26 +83,31 @@ chrome.runtime.onConnect.addListener((port) => {
         }
         else if (message.action === "callGeminiAPIDebug") {
             try {
-                const prompt = `Analyze this code solution for the LeetCode problem:
-Problem: ${message.problemDescription}
-Code: ${message.problemCode}
+                const prompt = `This is a LeetCode-style problem and solution.
+
+Problem:
+${message.problemDescription}
+
+Code:
+${message.problemCode}
+
+Assume all LeetCode-specific syntax is valid.
+
 Instructions:
+- If the code would pass all LeetCode test cases, respond with ONLY:
+  SOLUTION PASSES - No critical errors
 
-First, determine if this solution would pass LeetCode tests as written
-If it would pass, respond EXACTLY with: "SOLUTION PASSES - No critical errors"
-If it would fail, identify ONLY the exact line causing failure
+- If the code would fail, respond with ONLY:
+  REASON: [very brief phrase]
+  CODE LINE: [code line]
 
-For failing solutions only:
-CopyFAILING LINE: [exact line of code causing the issue]
-REASON: [brief explanation of why it fails]
-FIX: [minimal code change to fix]
-Do not comment on:
-
-Unused variables
-Style issues
-Optimizations
-Any issue that doesn't prevent the code from passing tests`;
+Do NOT include the code, line numbers, fixes, or explanations.
+Do NOT include any additional commentary.
+ANYTHING beyond the exact required phrase is incorrect.`;
                 const response = await callGeminiAPI({ prompt });
+
+                const dbData = await updateDBForCompDebug("debug");
+                console.log("Data:", dbData);
 
                 port.postMessage({
                     status: "success",
@@ -132,13 +137,14 @@ Any issue that doesn't prevent the code from passing tests`;
         }
         else if (message.action === "callGeminiAPIComplexity") {
             try {
-                const prompt = `You are an expert programmer with a deep understanding of algorithms and computational complexity. Your task is to analyze a LeetCode-style coding problem and its corresponding solution. Carefully evaluate the code, considering built-in functions, language-specific optimizations, and problem constraints, and determine its time complexity and space complexity.
+                const prompt = `You are an expert programmer with a deep understanding of algorithms and computational complexity. Your task is to analyze a LeetCode-style coding problem and its corresponding solution. Carefully evaluate the code, considering built-in functions, language-specific optimizations, and problem constraints, and determine its time complexity and space complexity. Tell me just the time and space comeplexity you do not have to repeat the code back to me. If the code given is not an actual solution or doesn't work just return the space and time complexity of the broken code. If the code is not actually code just say there is no space or time complexity for this.
 
 Pay special attention to:
-- **Dynamic data structures** (e.g., vectors, hash maps, linked lists): If a vector (or equivalent resizable array) is created and stores n elements, the space complexity is **at least O(n)**.
-- **Recursive function calls** and the additional space required for the call stack.
-- **In-place modifications** versus auxiliary space usage.
-- **Hidden complexities** in built-in functions or language-specific optimizations.
+- **Dynamic data structures** (e.g., vectors, hash maps, linked lists): If a data structure is created and stores n elements, space complexity is **at least O(n)**.
+- **Return values**: If a new array or data structure is returned, include that in space complexity.
+- **Recursive function calls** and stack space.
+- **In-place modifications** vs extra storage: Distinguish between modifying input vs using new containers.
+- **Built-in function usage**: Account for hidden allocations or internal copies if applicable.
 
 **Problem Description:**
 ${message.problemDescription}
@@ -148,9 +154,12 @@ ${message.problemCode}
 
 Provide your assessment in a single line using the following format:
 Time Complexity: O(?), Space Complexity: O(?)
-
 `;
+
                 const response = await callGeminiAPI({ prompt });
+
+                const dbData = await updateDBForCompDebug("complexity");
+                console.log("Data:", dbData);
 
                 port.postMessage({
                     status: "success",
@@ -219,11 +228,73 @@ async function updateDB(problemTag) {
     const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
     difficultyValues[problemTag] = 1;
     //temp values
-    let totalProblemsSolved = 0;
-    let numEasy = 0;
-    let numMedium = 0;
-    let numHard = 0;
+    let totalDebug = 0
+    let totalComplexity = 0
+   
+    const getUserId = () => {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get("userId", (data) => {
+                if (data.userId) {
+                    resolve(data.userId);
+                } else {
+                    reject("User is not logged in.");
+                }
+            });
+        });
+    };
 
+    try {
+        // Wait for userId before proceeding
+        let id = await getUserId(); 
+        console.log(id);
+        const updateData = {
+            id,
+            totalNumHintsEasy: difficultyValues.Easy,
+            totalNumHintsMedium: difficultyValues.Medium,  
+            totalNumHintsHard: difficultyValues.Hard,
+            totalDebug,
+            totalComplexity
+        };
+
+        // Send data to backend
+        const updateDBResponse = await fetch('http://localhost:8081/save-extension-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        if (updateDBResponse.ok) {
+            console.log("Successful user data update");
+        } 
+        else {
+            console.log("User data failed to update");
+            throw new Error("Database update failed");
+        }
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateDBForCompDebug(buttonClicked) {
+    // Update DB with user stats
+    const difficultyValues = { Easy: 0, Medium: 0, Hard: 0 };
+    //temp values
+    let totalDebug = 0;
+    let totalComplexity = 0;
+
+    if (buttonClicked == "debug") {
+        totalDebug += 1;
+    }
+    else if (buttonClicked == "complexity") {
+        totalComplexity += 1;
+    }
+    else {
+        throw new Error("How did you get here?")
+    }
+  
     const getUserId = () => {
         return new Promise((resolve, reject) => {
             chrome.storage.local.get("userId", (data) => {
@@ -243,12 +314,10 @@ async function updateDB(problemTag) {
         const updateData = {
             id,
             totalNumHintsEasy: difficultyValues.Easy,
-            totalNumHintsMedium: difficultyValues.Medium,
+            totalNumHintsMedium: difficultyValues.Medium,  
             totalNumHintsHard: difficultyValues.Hard,
-            totalProblemsSolved,
-            numEasy,
-            numMedium,
-            numHard
+            totalDebug,
+            totalComplexity
         };
 
         // Send data to backend
@@ -274,7 +343,7 @@ async function updateDB(problemTag) {
 }
 
 async function callGPTAPI(data) {
-    const GPT_KEY = "AIzaSyCZsIa9d_niUCY7vgY1-xmgrF-WwnlKNuc"; // Replace with your actual GPT API key
+    const GPT_KEY = "your-API-key-here"; // Replace with your actual GPT API key
     const options = {
         method: "POST",
         headers: {
