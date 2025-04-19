@@ -62,6 +62,13 @@ body, html {
     padding: 20px 0;
 }
 
+.card_title{
+    font-family:  "Press Start 2P", serif;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+
 .stat-item {
     background-color: #a6d9ff;
     padding: 15px;

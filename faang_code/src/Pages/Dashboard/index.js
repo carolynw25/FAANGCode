@@ -188,7 +188,7 @@ function Dashboard() {
             {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
                 <div className="stat-item">
-                    <h3>Badges and Achievements</h3>
+                    <div className="card_title">Badges and Achievements</div>
                     <div className="badge-container">
                         <HintBadge title="Hint Novice" icon="/Badges/badge1.png"
                                    unlocked={userHintBadges.includes("hint_novice")}/>
@@ -200,12 +200,14 @@ function Dashboard() {
                                    unlocked={userHintBadges.includes("hint_legend")}/>
                     </div>
                 </div>
-                <div className="stat-item"><h3>Difficulty Breakdown</h3>
+                <div className="stat-item"><div className="card_title">Difficulty Breakdown</div>
                     <p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} |
                         Medium: {userStats ? userStats.totalNumHintsMedium : 0} |
                         Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
-                <div className="stat-item"><h3>AI Hints Used</h3>
-                    <p>{userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p>
+                <div className="stat-item"><div className="card_title">How You've Used FAANGCode</div>
+                    <p>Total Hint Usage: {userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p>
+                    <p>Debugging Requests: {userStats ? userStats.totalDebug : 0}</p>
+                    <p>Time/Space Complexity Checks: {userStats ? userStats.totalComplexity : 0}</p>
                 </div>
 
             </div>
