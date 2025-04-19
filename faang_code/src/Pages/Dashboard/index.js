@@ -2,10 +2,10 @@
 //import Problems from "../../components/Problems";
 import './index.css';
 import React, { useState, useEffect } from 'react';
-import { Line, Bar } from 'react-chartjs-2';
+import { Pie, Bar } from 'react-chartjs-2';
 import {useNavigate} from "react-router-dom";
-import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, ArcElement, Legend } from 'chart.js';
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, ArcElement, Legend);
 
 //function for badges & achievements
 function getHintBadges(totalHints) {
@@ -40,6 +40,7 @@ function Dashboard() {
         labels: [],
         datasets: []
     });
+    const [pieChartData, setPieChartData] = useState({ labels: [], datasets: [] });
 
     const navigate = useNavigate();
 
@@ -62,6 +63,7 @@ function Dashboard() {
                 .then(response => response.json())
                 .then(data => {
                     setUserStats(data);
+                    const totalHints = data.totalNumHintsEasy + data.totalNumHintsMedium + data.totalNumHintsHard;
 
                     //horizontal bar chart displaying count of all attribute totals
                     setBarChartTotalData({
@@ -69,7 +71,7 @@ function Dashboard() {
                         datasets: [{
                             label: 'Number of Times Used',
                             data: [
-                                data.totalNumHintsEasy + data.totalNumHintsMedium+ data.totalNumHintsHard || 0,
+                                totalHints || 0,
                                 data.totalDebug || 0,
                                 data.totalComplexity || 0,
                             ],
@@ -112,6 +114,31 @@ function Dashboard() {
                         }]
                     });
 
+                    //pie chart of stats
+                    setPieChartData({
+                        labels: ['Hints', 'Debug', 'Complexity'],
+                        datasets: [
+                            {
+                                data: [
+                                    totalHints || 0,
+                                    data.totalDebug || 0,
+                                    data.totalComplexity || 0
+                                ],
+                                backgroundColor: [
+                                    'rgba(5,0,14,0.97)',
+                                    'rgba(128, 128, 128)',
+                                    'rgb(255,255,255)'
+                                ],
+                                borderColor: [
+                                    'rgba(5,0,14,0.97)',
+                                    'rgba(99, 99, 99)',
+                                    'rgb(235, 230, 230)'
+                                ],
+                                borderWidth: 2
+                            }
+                        ]
+                    });
+
 
                 })
                 .catch(error => console.error('Error fetching user data:', error));
@@ -134,7 +161,7 @@ function Dashboard() {
     };
 
     const horizontalBarChartOptions = {
-        indexAxis: 'y', // <--- makes the bars horizontal
+        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -168,7 +195,8 @@ function Dashboard() {
         <div className = "dashboard-content">
             <div className="title">Welcome, FAANGCoder!</div>
             <h1>{username ? `${username}'s Dashboard` : 'Dashboard'}</h1>
-            {/* track progress over time*/}
+
+            {/* Bar chart of usage summary*/}
             <div className="card">
                 <h3>FAANGCode Usage Summary</h3>
                 <div className="chart-container">
@@ -176,14 +204,23 @@ function Dashboard() {
                 </div>
             </div>
 
-
-            {/* Problems Solved Over Time Bar Chart */}
+            {/* Bar chart of hint breakdown */}
             <div className="card">
                 <h3>Hints Used by Difficulty</h3>
                 <div className="chart-container">
                     <Bar data={barChartData} options={barChartOptions}/>
                 </div>
             </div>
+
+            {/*/!* Pie chart of comparisons *!/*/}
+            {/*<div className="card">*/}
+            {/*    <h3>AI Feature Distribution</h3>*/}
+            {/*    <div className="chart-container">*/}
+            {/*        <div style={{width: '50%', margin: 'auto'}}>*/}
+            {/*            <Pie data={pieChartData} options={{plugins: {legend: {position: 'bottom'}}}}/>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
@@ -200,14 +237,19 @@ function Dashboard() {
                                    unlocked={userHintBadges.includes("hint_legend")}/>
                     </div>
                 </div>
-                <div className="stat-item"><div className="card_title">Difficulty Breakdown</div>
+                <div className="stat-item">
+                    <div className="card_title">Hint Difficulty Breakdown</div>
                     <p>Easy: {userStats ? userStats.totalNumHintsEasy : 0} |
                         Medium: {userStats ? userStats.totalNumHintsMedium : 0} |
                         Hard: {userStats ? userStats.totalNumHintsHard : 0}</p></div>
-                <div className="stat-item"><div className="card_title">How You've Used FAANGCode</div>
-                    <p>Total Hint Usage: {userStats ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard : 0}</p>
+                <div className="stat-item">
+                    <div className="card_title">How You've Used FAANGCode</div>
+                    <p>Total Hint Usage: {userStats ? totalHintsUsed : 0}</p>
                     <p>Debugging Requests: {userStats ? userStats.totalDebug : 0}</p>
                     <p>Time/Space Complexity Checks: {userStats ? userStats.totalComplexity : 0}</p>
+                    <div style={{width: '50%', margin: 'auto'}}>
+                        <Pie data={pieChartData} options={{plugins: {legend: {position: 'bottom'}}}}/>
+                    </div>
                 </div>
 
             </div>
