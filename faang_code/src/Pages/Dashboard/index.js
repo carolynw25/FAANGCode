@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, ArcElement, Legend } from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, ArcElement, Legend);
 
-//function for badges & achievements
+//function for hint badges & achievements
 function getHintBadges(totalHints) {
     const badges = [];
 
@@ -15,6 +15,17 @@ function getHintBadges(totalHints) {
     if (totalHints >= 10) badges.push("hint_apprentice");
     if (totalHints >= 25) badges.push("hint_pro");
     if (totalHints >= 50) badges.push("hint_legend");
+
+    return badges;
+}
+//function for debug badges and achievements
+function getDebugBadges(totalDebugs) {
+    const badges = [];
+
+    if (totalDebugs >= 1) badges.push("debug_scout");
+    if (totalDebugs >= 10) badges.push("debug_hunter");
+    if (totalDebugs >= 25) badges.push("debug_master");
+    if (totalDebugs >= 50) badges.push("debug_whisperer");
 
     return badges;
 }
@@ -181,6 +192,7 @@ function Dashboard() {
         : 0;
 
     const userHintBadges = getHintBadges(totalHintsUsed);
+    const debugBadges = userStats ? getDebugBadges(userStats.totalDebug || 0) : [];
 
     function HintBadge({ title, icon, unlocked }) {
         return (
@@ -231,10 +243,20 @@ function Dashboard() {
                                    unlocked={userHintBadges.includes("hint_novice")}/>
                         <HintBadge title="Hint Apprentice" icon="/Badges/badge2.png"
                                    unlocked={userHintBadges.includes("hint_apprentice")}/>
-                        <HintBadge title="Hint Pro" icon="/Badges/badge3.png"
+                        <HintBadge title="Hint Professional" icon="/Badges/badge3.png"
                                    unlocked={userHintBadges.includes("hint_pro")}/>
                         <HintBadge title="Hint Legend" icon="/Badges/badge4.png"
                                    unlocked={userHintBadges.includes("hint_legend")}/>
+                    </div>
+                    <div className="badge-container">
+                        <HintBadge title="Debug Scout" icon="/Badges/badge1D.png"
+                                   unlocked={debugBadges.includes("debug_scout")}/>
+                        <HintBadge title="Debug Hunter" icon="/Badges/badge2D.png"
+                                   unlocked={debugBadges.includes("debug_hunter")}/>
+                        <HintBadge title="Debug Master" icon="/Badges/badge3D.png"
+                                   unlocked={debugBadges.includes("debug_master")}/>
+                        <HintBadge title="Debug Whisperer" icon="/Badges/badge4D.png"
+                                   unlocked={debugBadges.includes("debug_whisperper")}/>
                     </div>
                 </div>
                 <div className="stat-item">
