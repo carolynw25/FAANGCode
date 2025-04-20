@@ -1,11 +1,15 @@
 .home-container {
     text-align: center;
     padding: 60px 20px;
-    margin-left: 240px;
     max-width: 900px;
-    margin: auto;
+    /* margin: auto; */
     font-family: "Arial", sans-serif;
-    margin-top: 200px; /* title keeps going off screen idk.. */
+    margin-top: 800px;
+    text-align: center;
+    margin-left: 230px;
+    /* margin-top: 10cm; /* title keeps going off screen idk..
+    text-align: center;
+    margin-left: 6cm; */
 }
 
 .welcome {
