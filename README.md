@@ -71,7 +71,7 @@ CREATE TABLE user_data (
   totalNumHintsMedium INT NOT NULL DEFAULT 0,
   totalNumHintsHard INT NOT NULL DEFAULT 0,
   totalDebug INT NOT NULL DEFAULT 0,
-  totalComplexity INT NOT NULL DEFAULT 0,
+  totalComplexity INT NOT NULL DEFAULT 0
 );
 ```
 
