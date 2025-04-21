@@ -125,7 +125,7 @@ function Dashboard() {
                         }]
                     });
 
-                    //pie chart of stats
+                    // Pie chart of stats
                     setPieChartData({
                         labels: ['Hints', 'Debug', 'Complexity'],
                         datasets: [
@@ -136,16 +136,16 @@ function Dashboard() {
                                     data.totalComplexity || 0
                                 ],
                                 backgroundColor: [
-                                    'rgba(5,0,14,0.97)',
-                                    'rgba(128, 128, 128)',
-                                    'rgb(255,255,255)'
+                                    '#45a049', // Green for Hints
+                                    '#FF4500', // Orange-Red for Debug
+                                    '#4169E1'  // Royal Blue for Complexity
                                 ],
                                 borderColor: [
-                                    'rgba(5,0,14,0.97)',
-                                    'rgba(99, 99, 99)',
-                                    'rgb(235, 230, 230)'
+                                    '#121A27', // Dark border for Hints
+                                    '#121A27',  // Gray border for Debug
+                                    '#121A27' // Light Gray border for Complexity
                                 ],
-                                borderWidth: 2
+                                borderWidth: 1.5
                             }
                         ]
                     });

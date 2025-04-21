@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
         port.onMessage.addListener((response) => {
             console.log("Response from background:", response);
             if (response.success) {
+                const profile_icon = document.getElementById("default-profile")
+                profile_icon.src = "../images/logged_in.png"
                 document.getElementById("login-form-container").classList.add("hidden");
                 document.getElementById("default-container").classList.remove("hidden");
             } else {
