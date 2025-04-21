@@ -70,10 +70,8 @@ CREATE TABLE user_data (
   totalNumHintsEasy INT NOT NULL DEFAULT 0,
   totalNumHintsMedium INT NOT NULL DEFAULT 0,
   totalNumHintsHard INT NOT NULL DEFAULT 0,
-  totalProblemsSolved INT DEFAULT 0,
-  numEasy INT DEFAULT 0,
-  numMedium INT DEFAULT 0,
-  numHard INT DEFAULT 0
+  totalDebug INT NOT NULL DEFAULT 0,
+  totalComplexity INT NOT NULL DEFAULT 0
 );
 ```
 

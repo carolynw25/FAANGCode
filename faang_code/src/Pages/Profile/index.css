@@ -18,6 +18,7 @@ body {
     max-width: 400px;
     text-align: center;
     animation: fadeIn 0.5s ease-in-out;
+    margin-left: 230px;
 }
 
 /* Profile heading */
@@ -54,11 +55,18 @@ body {
     font-weight: normal;
 }
 
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* this adds spacing between the buttons */
+    margin-top: 20px;
+}
+
 /* Logout Button */
 .logout-btn {
     margin-top: 20px;
     padding: 10px 15px;
-    background: #ff4b5c;
+    background: #259552;
     border: none;
     color: #fff;
     font-size: 16px;
@@ -68,5 +76,23 @@ body {
 }
 
 .logout-btn:hover {
-    background: #e84150;
+    background: #1a683a;
+    transform: scale(1.02);
+}
+
+.delete-btn {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #b30000;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    background: #990000;
+    transform: scale(1.02);
 }

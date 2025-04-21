@@ -1,7 +1,7 @@
 .navbar {
     background-color: #4caaf2;
     padding: 20px;
-    width: 159px;
+    width: 189px;
     height: 100vh;  /* take up the full height of the viewport */
     position: fixed;
     top: 0; 
@@ -35,17 +35,41 @@ img {
 
 
 .logout-button {
-    background: none;
-    border: none;
+    border: 1px solid #115516;
+    background-color: rgb(56, 188, 69);
+    border-radius: 15px;
+    /* border: none; */
     color: white;
-    text-decoration: none;
-    cursor: pointer;
+    /* text-decoration: none;
+    cursor: pointer; */
     font-size: 1rem;
     padding: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
+    transition: all 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color: #2a8dc8;
+    background-color: #115516;
 }
 
-  
+.nav-content {
+    height: 100%; /* Fill the full navbar */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push bottom content down for signin/signout */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-bottom {
+    margin-top: auto;
+    padding-top: 30px;
+    margin-bottom: 20px;
+}

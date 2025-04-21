@@ -1,19 +1,60 @@
 .home-container {
     text-align: center;
-    padding: 50px;
-    margin-left: 240px;
-
+    padding: 60px 20px;
+    max-width: 900px;
+    /* margin: auto; */
+    font-family: "Arial", sans-serif;
+    margin-top: 800px;
+    text-align: center;
+    margin-left: 230px;
+    /* margin-top: 10cm; /* title keeps going off screen idk..
+    text-align: center;
+    margin-left: 6cm; */
 }
+
 .welcome {
     margin-left:10px;
+    font-family:  "Press Start 2P", serif;
+    font-style: normal;
+    font-size: 40px;
+    color: #4caaf2;
+    padding: 20px 0;
+    text-align: center;
 }
+
+.intro-text {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.section-card {
+    background-color: #f9f9f9;
+    padding: 30px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: left;
+}
+
+.section-card h2 {
+    color: #4caaf2;
+    margin-bottom: 15px;
+}
+
+.section-card p {
+    line-height: 1.6;
+    font-size: 16px;
+    color: #444;
+}
+
 .auth-buttons {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .auth-buttons button {
     margin: 10px;
-    padding: 12px 24px;
+    padding: 12px 28px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
@@ -37,3 +78,4 @@
 .signup-btn:hover {
     background-color: #218838;
 }
+
