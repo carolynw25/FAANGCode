@@ -171,7 +171,7 @@ npm ls babel-loader
 
 ## Steps to Set Up Chrome Extension
 
-1. Go to Gemini API Developer Kit and request a key.
+1. Go to Gemini API Developer Kit and request a key.  
 [https://ai.google.dev/gemini-api/docs/api-key](https://ai.google.dev/gemini-api/docs/api-key) 
 2. Add the key to the `GeminiAPI` function inside:
 ```
