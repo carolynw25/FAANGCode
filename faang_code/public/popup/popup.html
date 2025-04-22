@@ -44,25 +44,27 @@
     </div>
 
     <!-- Help Page -->
-    <div id = "help-container" class = "hidden">
-        <div class = "header">
-            <div id = "help-back" class="back-button">
+    <div id="help-container" class="hidden">
+        <div class="header">
+            <div id="help-back" class="back-button">
                 &#8592; <span>Back</span>
             </div>
-            <h2 id = "loginText">Help</h2>
+            <h2 id="loginText">Help</h2>
         </div>
-        <p>
-            Hint: The hint button will show you a hint based off the current code you have in the leetcode editor.
-        </p>
-        <p>
-            Debug: The debug feature will attempt to find the error in the code.
-        </p>
-        <p>
-            Complexity: The complexity button will display the current time and space complexity of the code.
-        </p>
-        <p>
-            If non-code content is submitted or unrelated text/commands are written results may be inaccurate or unexpected.
-        </p>
+        <div class="help-content">
+            <p class="help-item hint">
+                <strong>Hint:</strong> The hint button will show you a hint based on the current code you have in the LeetCode editor.
+            </p>
+            <p class="help-item debug">
+                <strong>Debug:</strong> The debug feature will attempt to find the error in the code.
+            </p>
+            <p class="help-item complexity">
+                <strong>Complexity:</strong> The complexity button will display the current time and space complexity of the code.
+            </p>
+            <p class="help-item note">
+                <strong>Note:</strong> If non-code content is submitted or unrelated text/commands are written, results may be inaccurate or unexpected.
+            </p>
+        </div>
     </div>
 
     <script src="popup.js"></script>
