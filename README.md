@@ -15,8 +15,7 @@ brew install mariadb
 brew services start mariadb
 ```
 
-### 3. Login as root  
-(Note: password for `sudo` is your computer login password)
+### 3. Login as root (password for `sudo` is your computer login password):
 ```bash
 sudo mysql -u root
 ```
@@ -36,11 +35,10 @@ GRANT ALL PRIVILEGES ON *.* TO 'user1'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-### 7. Exit and login as the new user:
+### 7. Exit and login as the new user (enter `password1` when prompted):
 ```bash
 exit
 mysql -u user1 -p
-# When prompted, enter: password1
 ```
 
 ### 8. Create the database and use it:
@@ -105,27 +103,27 @@ sudo apt -y install mariadb-server mariadb-client
 sudo systemctl start mariadb
 ```
 
-### 5. Follow steps 4–9 from **MacOS instructions**
+### 5. Follow steps 4–9 from the MacOS section above
 
 ---
 
 ## Steps to Set Up Database (Windows)
 
-### 1. Install MariaDB from: https://mariadb.org/  
-- If you change the install path, remember it.  
-- If you set a password, remember it.  
-- Enable UTF-8 as the default character set.  
-- Remember the port number set.
+### 1. Install MariaDB from the official site:  
+[https://mariadb.org/](https://mariadb.org/)  
+During installation:  
+- Enable UTF-8 as the default character set  
+- Remember the port and installation path if changed  
+- Note the password you set for root
 
-### 2. Open Command Prompt and login as root:
+### 2. Open Command Prompt and login as root (adjust the path if needed):
 ```cmd
 cd "\Program Files\MariaDB 11.5"
 cd bin
-mysql -u root -p or .\mysql -u root -p
+mysql -u root -p
 ```
-*Note: If you changed the install path, use `PATH\MariaDB 11.5` instead.*
 
-### 3. Follow steps 4–9 from **MacOS instructions**
+### 3. Follow steps 4–9 from the MacOS section above
 
 ---
 
@@ -136,44 +134,49 @@ mysql -u root -p or .\mysql -u root -p
 git clone https://github.com/carolynw25/FAANGCode.git
 ```
 
-### 2. Start the Frontend:
+### 2. Start the Frontend (run these inside `faang_code`):
 ```bash
 cd faang_code
-npm install   # only the first time
+npm install
 npm start
 ```
-*Note: If you get a babel error:*
+
+If you get a Babel error, try:
 ```bash
 del package-lock.json
-rm -rf node_modules  # press Y if prompted
+rm -rf node_modules
 npm install
 ```
 
-### 3. Start the Backend (in a separate terminal):
+### 3. Start the Backend in a separate terminal:
 ```bash
 cd faang_code/backend
 npm start
 ```
 
-*Notes if errors occur:*
-- For nodemon error in `faang_code`:  
-  ```bash
-  npm install
-  npm install nodemon --save-dev
-  ```
+If errors occur:
 
-- For babel error:  
-  ```bash
-  npm ls babel-loader
-  ```
+**Nodemon error**:
+```bash
+npm install
+npm install nodemon --save-dev
+```
+
+**Babel error**:
+```bash
+npm ls babel-loader
+```
 
 ---
 
 ## Steps to Set Up Chrome Extension
 
 1. Go to Gemini API Developer Kit and request a key.  
-2. Add the key to:  
-   `faang_code/public/background/background.js` in the `GeminiAPI` function.
+[https://ai.google.dev/gemini-api/docs/api-key](https://ai.google.dev/gemini-api/docs/api-key) 
+2. Add the key to the `GeminiAPI` function inside:
+```
+faang_code/public/background/background.js
+```
 
 3. Build the project:
 ```bash
@@ -181,14 +184,37 @@ cd faang_code
 npm run build
 ```
 
-4. In Google Chrome, go to:  
-   `chrome://extensions/`
+4. In Chrome, open the extension page:
+```
+chrome://extensions/
+```
 
-5. Click **"Load unpacked"** and select the folder:  
-   `FAANGCode/faang_code/public`
+5. Click **Load unpacked** and select:
+```
+FAANGCode/faang_code/public
+```
 
-> Note: You may need to toggle **Developer mode** (top right corner). If code has changed since original download click "Reload" to update.
+Make sure Developer Mode is enabled. Click **Reload** if you've made code changes.
 
-Now, when visiting a LeetCode problem, you can open the extension and have it analyze your code.
+Now, when visiting a LeetCode problem, open the extension to analyze your code.
+
+---
+---
+
+## How to Use FAANGCode Extension
+
+### Hint
+Click the **Hint** button to get a suggestion based on the code currently in your LeetCode editor.
+
+### Debug
+Click the **Debug** button to have the extension attempt to identify possible bugs or errors in your code.
+
+### Complexity
+Click the **Complexity** button to analyze your code and display its time and space complexity.
+
+> ⚠️ Note: If you submit non-code content or unrelated text/commands, results may be inaccurate or unexpected.
+---
+---
+
 
 **Happy coding!**
