@@ -199,5 +199,22 @@ Make sure Developer Mode is enabled. Click **Reload** if you've made code change
 Now, when visiting a LeetCode problem, open the extension to analyze your code.
 
 ---
+---
+
+## How to Use FAANGCode Extension
+
+### Hint
+Click the **Hint** button to get a suggestion based on the code currently in your LeetCode editor.
+
+### Debug
+Click the **Debug** button to have the extension attempt to identify possible bugs or errors in your code.
+
+### Complexity
+Click the **Complexity** button to analyze your code and display its time and space complexity.
+
+> ⚠️ Note: If you submit non-code content or unrelated text/commands, results may be inaccurate or unexpected.
+---
+---
+
 
 **Happy coding!**
