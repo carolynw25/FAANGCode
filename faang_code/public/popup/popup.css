@@ -10,6 +10,100 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Help container styling */
+#help-container {
+    padding: 15px;
+    background-color: #1A2332;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #FFFFFF;
+    font-size: 13px; /* Reduced font size */
+    line-height: 1.5;
+}
+
+.help-content {
+    margin-top: 10px;
+}
+
+.help-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #2A3B4C;
+    border-left: 4px solid; /* Accent border */
+    border-radius: 5px;
+    font-size: 12px; /* Reduced font size */
+}
+
+/* Hint section styling */
+.help-item.hint {
+    border-left-color: #4CAF50; /* Green for Hint */
+}
+
+.help-item.hint strong {
+    color: #4CAF50; /* Green for Hint */
+}
+
+/* Debug section styling */
+.help-item.debug {
+    border-left-color: #FF6347; /* Red for Debug */
+}
+
+.help-item.debug strong {
+    color: #FF6347; /* Red for Debug */
+}
+
+/* Complexity section styling */
+.help-item.complexity {
+    border-left-color: #4682B4; /* Blue for Complexity */
+}
+
+.help-item.complexity strong {
+    color: #4682B4; /* Blue for Complexity */
+}
+
+/* Note section styling */
+.help-item.note {
+    border-left-color: #FFD700; /* Yellow background for the note */
+}
+
+.help-item.note strong {
+    color: #FFD700; /* Yellow for Note */
+}
+
+/* Highlight effect for Hint button */
+.highlight-hint {
+    background-color: #4CAF50; /* Green */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
+
+/* Highlight effect for Debug button */
+.highlight-debug {
+    background-color: #FF6347; /* Red */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
+
+/* Highlight effect for Complexity button */
+.highlight-complexity {
+    background-color: #4682B4; /* Blue */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
+
+.highlight-note {
+    background-color: #FFD700; /* Yellow */
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 0px;
+}
 
 #contentContainer {
     display: flex;
@@ -156,13 +250,13 @@ body {
 
 .login-form input {
     width: 94%;
-    padding: 7px; 
-    margin: 10px 0; 
+    padding: 7px;
+    margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-left: 7px;
-    
+
 }
 .login-form button {
     width: 94%;
