@@ -14,6 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("default-container").classList.remove("hidden");
     });
 
+    //Change popup to help popup upon clicking on help icon
+    document.getElementById("help").addEventListener("click", () => {
+        document.getElementById("default-container").classList.add("hidden");
+        document.getElementById("help-container").classList.remove("hidden");
+    });
+
+    //Change help popup back to main popup
+    document.getElementById("help-back").addEventListener("click", () => {
+        document.getElementById("help-container").classList.add("hidden");
+        document.getElementById("default-container").classList.remove("hidden");
+    });
+
     // Add event listener for login
     document.getElementById("login-form").addEventListener('submit', (event) => {
         event.preventDefault();

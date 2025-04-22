@@ -23,12 +23,13 @@
             <button id="hintButton" class="btn">Hint</button>
             <button id="debugButton" class="btn">Debug</button>
             <button id="complexityButton" class="btn">Complexity</button>
+            <img id = "help" src="../images/help_icon2.png" alt="Help Icon">
         </div>
         <hr class="divider">
         <div id="messageContainer"></div>
     </div>
-     <!-- Login form (initially hidden) -->
-     <div id="login-form-container" class="hidden">
+    <!-- Login form (initially hidden) -->
+    <div id="login-form-container" class="hidden">
         <div class = "header">
             <div id = "back" class="back-button">
                 &#8592; <span>Back</span>
@@ -41,6 +42,29 @@
             <button type="submit" id = "loginButton">Login</button>
         </form>
     </div>
+
+    <!-- Help Page -->
+    <div id = "help-container" class = "hidden">
+        <div class = "header">
+            <div id = "help-back" class="back-button">
+                &#8592; <span>Back</span>
+            </div>
+            <h2 id = "loginText">Help</h2>
+        </div>
+        <p>
+            Hint: The hint button will show you a hint based off the current code you have in the leetcode editor.
+        </p>
+        <p>
+            Debug: The debug feature will attempt to find the error in the code.
+        </p>
+        <p>
+            Complexity: The complexity button will display the current time and space complexity of the code.
+        </p>
+        <p>
+            If non-code content is submitted or unrelated text/commands are written results may be inaccurate or unexpected.
+        </p>
+    </div>
+
     <script src="popup.js"></script>
 </body>
 </html>
