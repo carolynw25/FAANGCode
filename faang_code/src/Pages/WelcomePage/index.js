@@ -28,6 +28,23 @@ function WelcomePage() {
             </section>
 
             <section className="section-card">
+                <h2>How to use FAANGCode Extension</h2>
+                <p>
+                    <b>Hint: </b>The hint button will show you a hint based off the current code you have in the leetcode editor.
+                </p>
+                <p>
+                    <b>Debug: </b>The debug feature will attempt to find the error in the code.
+                </p>
+                <p>
+                    <b>Complexity: </b>The complexity button will display the current time and space complexity of the code.
+                </p>
+                <p style={{ color: 'gray' }}>
+                    Note: If non-code content is submitted or unrelated text/commands are written results may be inaccurate or unexpected.
+                </p>
+            </section>
+
+
+            <section className="section-card">
                 <h2>Our Mission</h2>
                 <p>
                     Our goal is to help programmers secure employment at top technology firms.
