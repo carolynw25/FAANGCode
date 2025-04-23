@@ -14,8 +14,12 @@ const pool = mariadb.createPool({
   password: 'password1',
   database: 'faangUsers',
   connectionLimit: 50,
-  //bigNumberStrings: true
 });
+
+// Start server
+app.listen(8081, ()=> {
+  console.log("listening")
+})
 
 // Connection check
 pool.getConnection()
@@ -50,9 +54,6 @@ app.post('/create-account', async (req, res) => {
     //mariaDB returns BigInt value, JS strinify cannot handle BigInt
     // Convert BigInt fields (like insertId) manually
     // chatgpt solution to bigint issue
-
-    //This isn't needed anymore as the bigNumber configuration in the pool connection 
-    //will automatically do this
     if (typeof result.insertId === "bigint") {
       result.insertId = result.insertId.toString();
     }
@@ -67,8 +68,6 @@ app.post('/create-account', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  // const username = req.body.username;
-  // const password = req.body.password;
 
   const sql = "SELECT id, username, password FROM user_signup WHERE username = ?";
   let conn;
@@ -98,6 +97,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+//API endpoint for saving data from extension
 app.post('/save-extension-data', async (req, res) => {
   const sql = `
     INSERT INTO user_data (id) VALUES (?)
@@ -168,15 +168,6 @@ app.get('/get-user-info', async (req, res) => {
     if (conn) conn.release();
   }
 });
-
-
-
-// Start server
-//const PORT = process.env.PORT || 5001;
-//app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-app.listen(8081, ()=> {
-  console.log("listening")
-})
 
 //endpoint for profile page to get user info
 app.get('/get-user', async (req, res) => {

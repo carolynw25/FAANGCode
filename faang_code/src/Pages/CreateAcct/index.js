@@ -12,8 +12,6 @@ function CreateAcct() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
-    //code to fetch/post request from database here
-
     //loading/error state defs
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -31,7 +29,8 @@ function CreateAcct() {
             password,
             email
         };
-
+        
+        //code to fetch/post request from database here
         try {
             const response = await fetch('http://localhost:8081/create-account', {
                 method: 'POST',
