@@ -25,6 +25,7 @@ function Login() {
             password
         };
         
+        //Use fetch-command to send a POST request to backend to verify user
         try {
             const response = await fetch('http://localhost:8081/login', {
                 method: 'POST',
@@ -54,8 +55,6 @@ function Login() {
             setLoading(false);
         }
     }
-
-    //Use fetch-command to send a POST request
 
     return (
         <div>
@@ -88,9 +87,7 @@ function Login() {
                 {error && <div className="error">{error}</div>}
 
                 <div className="auth-buttons">
-                    {/*<button onClick={() => navigate('/dashboard')} className="login-btn">Login</button>*/}
                     <button type="submit" className="login-btn">Login</button>      
-    
                 </div>
                     {/*NOTE for later: change to "Link To" and  and import "Link" with "useNavigate"*/}
                 <p>Don't have an account? <a href="#/create-account">Create Account</a></p>

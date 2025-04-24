@@ -187,6 +187,7 @@ function Dashboard() {
         }
     };
 
+    //preps data to show badges for hints and debug
     const totalHintsUsed = userStats
         ? userStats.totalNumHintsEasy + userStats.totalNumHintsMedium + userStats.totalNumHintsHard
         : 0;
@@ -223,16 +224,6 @@ function Dashboard() {
                     <Bar data={barChartData} options={barChartOptions}/>
                 </div>
             </div>
-
-            {/*/!* Pie chart of comparisons *!/*/}
-            {/*<div className="card">*/}
-            {/*    <h3>AI Feature Distribution</h3>*/}
-            {/*    <div className="chart-container">*/}
-            {/*        <div style={{width: '50%', margin: 'auto'}}>*/}
-            {/*            <Pie data={pieChartData} options={{plugins: {legend: {position: 'bottom'}}}}/>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
 
             {/* grabs from DB, but sets a default of 0*/}
             <div className="stats-container">
